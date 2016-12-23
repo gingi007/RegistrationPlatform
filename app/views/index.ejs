@@ -2,11 +2,11 @@
 <html lang="en">
 <% if (maxusers) { %>
 <script>
-    var maxMembers = parseInt(<%= maxusers %>) - 1;
+	var maxMembers = parseInt(<%= maxusers %>) - 1;
 </script>
 <% }else{ %>
 <script>
-    var maxMembers = 5;
+	var maxMembers = 5;
 </script>
 <% } %>
 <head>
@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
+    <!--<link rel="stylesheet" href="assets/css/form-elements.css">-->
 
     <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/default.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/component.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/default.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/component.css"/>-->
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
 
@@ -136,30 +136,61 @@
             <% } else { %>
             <h1><b>Welcome to <%= eventname %> Registration Website</b></h1>
 
-            <h2>Please login with your credentials used in registration</h2>
+            <!--<h2>Please login with your credentials used in registration</h2>-->
 
-            <div id="signinRow" class="row">
-                <div class="col-lg-12">
-                    <form class="form-signin" action="/login" method="post">
+            <!--<div id="signinRow" class="row">-->
+            <!--<div class="col-lg-12">-->
+            <!--<form class="form-signin" action="/login" method="post">-->
 
-                        <label for="username" class="sr-only">Email</label>
-                        <input type="text" name="username" id="username" class="form-control" placeholder="Email"
-                               required autofocus>
+            <!--<label for="username" class="sr-only">Email</label>-->
+            <!--<input type="text" name="username" id="username" class="form-control" placeholder="Email"-->
+            <!--required autofocus>-->
 
-                        <label for="password" class="sr-only">Password</label>
-                        <input type="password" name="password" id="password" class="form-control"
-                               placeholder="Password">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-                        <div class="flash">
-                            <%= messages %>
-                        </div>
+            <!--<label for="password" class="sr-only">Password</label>-->
+            <!--<input type="password" name="password" id="password" class="form-control"-->
+            <!--placeholder="Password">-->
+            <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>-->
+            <!--<div class="flash">-->
+            <!--<%= messages %>-->
+            <!--</div>-->
+            <!--</form>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row" style="color:white">-->
+
+            <!--<a style="color: white" href="/forgot">Forgot your password?</a>-->
+            <!--</div>-->
+
+            <div class="row" style="margin-top:20px">
+                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                    <form role="form">
+                        <fieldset>
+                            <h2>Please Sign In</h2>
+                            <hr class="colorgraph">
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control input-lg"
+                                       placeholder="Email Address">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" class="form-control input-lg"
+                                       placeholder="Password">
+                            </div>
+                            <div class="row"><a href="/forgot" class="btn btn-link pull-right">Forgot Password?</a></div>
+
+                            <hr class="colorgraph">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <a href="/register" class="btn btn-lg btn-primary btn-block">Register</a>
+                                </div>
+                            </div>
+                        </fieldset>
                     </form>
                 </div>
             </div>
-            <div class="row" style="color:white">
 
-                <a style="color: white" href="/forgot">Forgot your password?</a>
-            </div>
             <div class="row" style="color:white">
 
                 <a style="color: white" href="/register">Sign Up</a>
