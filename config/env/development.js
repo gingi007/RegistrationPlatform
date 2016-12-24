@@ -8,6 +8,7 @@ var eventname = 'MTA Hack';
 var eventwebsite = 'http://www.mtahack.com';
 var eventfacebook = 'https://www.facebook.com/mtahack2017';
 var maxNumOfUsersInTeam = 4;
+var adminEmail= 'mta.hackathon@gmail.com';
 module.exports = {
     port: port,
     host: host,

@@ -20,13 +20,16 @@ strong {
     font-weight: 500;
 }
 
+.btn-huge{
+    padding-top:20px;
+    padding-bottom:20px;
+}
+
 .select-p {
-    height: 50px;
     margin: 0;
     padding: 0 20px;
     vertical-align: middle;
     background: #f8f8f8;
-    border: 3px solid #ddd;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: 300;
@@ -85,13 +88,11 @@ img {
 
 ::-moz-selection {
     background: #19b9e7;
-    color: #fff;
     text-shadow: none;
 }
 
 ::selection {
     background: #19b9e7;
-    color: #fff;
     text-shadow: none;
 }
 
@@ -104,7 +105,6 @@ img {
     font-size: 16px;
     font-weight: 300;
     line-height: 16px;
-    color: #fff;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
@@ -113,7 +113,6 @@ img {
 .btn-link-1:hover, .btn-link-1:focus, .btn-link-1:active {
     outline: 0;
     opacity: 0.6;
-    color: #fff;
 }
 
 .btn-link-2 {
@@ -122,11 +121,10 @@ img {
     margin: 0 5px;
     padding: 15px 20px 0 20px;
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid #fff;
+    border: 1px solid #000;
     font-size: 16px;
     font-weight: 300;
     line-height: 16px;
-    color: #fff;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
@@ -137,7 +135,6 @@ img {
     outline: 0;
     opacity: 0.6;
     background: rgba(0, 0, 0, 0.3);
-    color: #fff;
 }
 
 /***** Top menu *****/
@@ -160,7 +157,6 @@ img {
 
 ul.navbar-nav {
     font-size: 16px;
-    color: #fff;
 }
 
 .navbar-inverse ul.navbar-nav li {
@@ -175,20 +171,17 @@ ul.navbar-nav {
 .navbar-inverse ul.navbar-nav li a {
     display: inline;
     padding: 0;
-    color: #fff;
 }
 
 .navbar-inverse ul.navbar-nav li a:hover {
-    color: #fff;
     opacity: 1;
-    border-bottom: 1px dotted #fff;
+    border-bottom: 1px dotted #000;
 }
 
 .navbar-inverse ul.navbar-nav li a:focus {
-    color: #fff;
     outline: 0;
     opacity: 1;
-    border-bottom: 1px dotted #fff;
+    border-bottom: 1px dotted #000;
 }
 
 .navbar-inverse ul.navbar-nav li .li-social a {
@@ -205,12 +198,12 @@ ul.navbar-nav {
 
 .navbar-brand {
     width: 123px;
-    background: url(../img/logo.png) left center no-repeat;
+    background: url(../img/mini-logo.png) left center no-repeat;
     text-indent: -99999px;
 }
 
 .logo-hack {
-    width: 20%;
+    width: 15%;
     float: left;
 }
 
@@ -239,15 +232,6 @@ ul.navbar-nav {
     background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
 }
 
-.top-content .text {
-
-    color: #fff;
-}
-
-.top-content .text h1 {
-    color: #fff;
-}
-
 .top-content .description {
     margin: 20px 0 10px 0;
 }
@@ -256,13 +240,9 @@ ul.navbar-nav {
     opacity: 0.8;
 }
 
-.top-content .description a {
-    color: #fff;
-}
-
 .top-content .description a:hover,
 .top-content .description a:focus {
-    border-bottom: 1px dotted #fff;
+    border-bottom: 1px dotted #000000;
 }
 
 .top-content .top-big-link {
@@ -324,12 +304,6 @@ ul.navbar-nav {
 
 /*teams*/
 
-.teamBox {
-
-    font-size: 60px;
-    vertical-align: middle;
-
-}
 
 .members-list .fa {
     vertical-align: middle;
@@ -338,6 +312,7 @@ ul.navbar-nav {
 .members-list input {
     width: 90%;
     display: inline-block;
+    margin: 5px;
 }
 
 #add_mem, #mem_rem_0, #mem_rem_1, #mem_rem_2, #mem_rem_3, #mem_rem_4 {
@@ -380,9 +355,6 @@ i[id^="mem_rem_"]:hover {
     color: red;
 }
 
-.teamBox a {
-    color: #600;
-}
 
 footer {
     position: absolute;
@@ -488,13 +460,6 @@ footer {
 
     .top-content .top-big-link a.btn {
         margin-top: 10px;
-    }
-
-    .teamBox {
-
-        font-size: 30px;
-        vertical-align: middle;
-
     }
 
     .form-top-myteam, .form-bottom-myteam {

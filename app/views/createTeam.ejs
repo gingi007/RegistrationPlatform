@@ -20,11 +20,8 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
 
     <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/default.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/component.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
 
@@ -228,12 +225,9 @@
                                         <label for="form-team-name">How many university computers do you need?</label>
                                         <select style="" name="comp" class="form-team-isClosed" id="comp">
                                             <option value="0">None</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
+                                            <% for(var i=0; i<maxusers; i++) {%>
+                                            <option value="<%= i+1 %>"> <%= i+1 %></option>
+                                            <% } %>
                                         </select>
                                     </div>
                                 </div>
@@ -243,12 +237,9 @@
                                             before?</label>
                                         <select style="" name="exp" class="form-team-isClosed" id="exp">
                                             <option value="0">None</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
+                                            <% for(var i=0; i<maxusers; i++) {%>
+                                            <option value="<%= i+1 %>"> <%= i+1 %></option>
+                                            <% } %>
                                         </select>
                                     </div>
                                 </div>

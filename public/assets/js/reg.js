@@ -11,11 +11,7 @@ $(document).ready(function () {
     var $de4 = $("<span class=tag data-tag='solid_works'>Solid Works<span class='form-rem-tag glyphicon glyphicon-remove'></span></span>")
     $('#form-degs').on('change', function () {
         $('.tag').remove()
-        if ($(this).val() === 'cs' || $(this).val() === 'eng') {
-            $('#tags').prepend($cs1, $cs2, $cs3);
-        } else if ($(this).val() === 'vis-comm' || $(this).val() === 'ind-design') {
-            $('#tags').prepend($de1, $de2, $de3, $de4);
-        } else if ($(this).val() === 'cs-design') {
+        if ($(this).val() === 'cs') {
             $('#tags').prepend($cs1, $cs2, $cs3);
         }
     });

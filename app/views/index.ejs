@@ -18,13 +18,9 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <!--<link rel="stylesheet" href="assets/css/form-elements.css">-->
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
-    <!--<link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/default.css"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="assets/CreativeButtons/css/component.css"/>-->
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
 
@@ -91,14 +87,14 @@
         <div class="container">
             <% if ( user ) { %>
             <!-- user don't have a team - show 2 options join\create -->
-            <h1 style="color:white">Hello <%= user.first_name %>. Welcome to <%= eventname %> matching platform.</h1>
+            <h1>Hello <%= user.first_name %>. Welcome to <%= eventname %> matching platform.</h1>
 
             <div class="row">
-                <h2 style="color:white">What do you want to do?</h2>
+                <h2>What do you want to do?</h2>
             </div>
-            <div class="row">
+            <div class="row" style="margin-bottom: 15px">
                 <div class="col-lg-12">
-                    <div id="openTeam" class="teamBox btn btn-1 btn-1d"
+                    <div id="openTeam" class="btn btn-primary btn-lg btn-block btn-huge"
                          onclick="location.href = '/<% if (user.isMember && user.email !== team.admin_email){ %>myTeam<% }else if (user.isMember) { %>updateTeam <% }else{ %>createTeam<% } %>';">
                         <% if (user.isMember && user.email !== team.admin_email){ %>
                         My Team
@@ -111,8 +107,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="teamBox btn btn-1 btn-1d" onclick="location.href = '/mingle';">
+                <div class="col-lg-12 ">
+                    <div class="btn btn-warning btn-lg btn-block btn-huge" onclick="location.href = '/mingle';">
                         <% if (user.isMember) { %>
                         Other Teams
                         <% }else{ %>
@@ -121,9 +117,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="color:white">
+            <div class="row">
                 <span class="glyphicon glyphicon-info-sign"></span> <span class="how-it-works" onclick="
-
                         modal({
                         type: 'info',
                         title: 'Information',
@@ -132,44 +127,17 @@
                         });
                         " style="cursor:pointer;">How does it work?</span>
             </div>
-
             <% } else { %>
             <h1><b>Welcome to <%= eventname %> Registration Website</b></h1>
-
-            <!--<h2>Please login with your credentials used in registration</h2>-->
-
-            <!--<div id="signinRow" class="row">-->
-            <!--<div class="col-lg-12">-->
-            <!--<form class="form-signin" action="/login" method="post">-->
-
-            <!--<label for="username" class="sr-only">Email</label>-->
-            <!--<input type="text" name="username" id="username" class="form-control" placeholder="Email"-->
-            <!--required autofocus>-->
-
-            <!--<label for="password" class="sr-only">Password</label>-->
-            <!--<input type="password" name="password" id="password" class="form-control"-->
-            <!--placeholder="Password">-->
-            <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>-->
-            <!--<div class="flash">-->
-            <!--<%= messages %>-->
-            <!--</div>-->
-            <!--</form>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row" style="color:white">-->
-
-            <!--<a style="color: white" href="/forgot">Forgot your password?</a>-->
-            <!--</div>-->
-
             <div class="row" style="margin-top:20px">
                 <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                    <form role="form">
+                    <form role="form" action="/login" method="post">
                         <fieldset>
                             <h2>Please Sign In</h2>
                             <hr class="colorgraph">
                             <div class="form-group">
-                                <input type="email" name="email" id="email" class="form-control input-lg"
-                                       placeholder="Email Address">
+                                <input type="email" name="username" id="username" class="form-control input-lg"
+                                       placeholder="User Name">
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" id="password" class="form-control input-lg"
@@ -187,17 +155,14 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <div class="flash">
+                            <%= messages %>
+                        </div>
                     </form>
                 </div>
             </div>
-
-            <div class="row" style="color:white">
-
-                <a style="color: white" href="/register">Sign Up</a>
-            </div>
-            <div class="row" style="color:white">
+            <div class="row">
                 <span class="glyphicon glyphicon-info-sign"></span> <span class="how-it-works" onclick="
-
                         modal({
                         type: 'info',
                         title: 'Information',
@@ -213,10 +178,13 @@
 
 </div>
 <!-- Javascript -->
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.backstretch.min.js"></script>
-<script src="assets/js/retina-1.1.0.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/retina.js/2.1.0/retina.min.js"></script>
 <script src="assets/js/scripts.js"></script>
 <script src="assets/js/jquery.qtip.js"></script>
 <script type="text/javascript" src="assets/js/jquery.modal.js"></script>
