@@ -5,10 +5,10 @@ var emailAddr = process.env.EMAIL_ADDR || '';
 var emailPass = process.env.EMAIL_PASS || '';
 var supportEmailAddr = process.env.SUPP_EMAIL_ADDR || '';
 var adminEmail = process.env.ADMIN_EMAIL || '';
-var eventname = 'HUJI Hackathon';
-var eventwebsite = 'http://www.hujihackathon.co.il';
-var eventfacebook = 'https://www.facebook.com/HujiHack';
-var maxNumOfUsersInTeam = 6; // maximum supported currently is 6, can be only enforce 6 or lower.
+var eventname = 'MTA Hack';
+var eventwebsite = 'akaton.mta.ac.il';
+var eventfacebook = 'https://www.facebook.com/mtahack2017';
+var maxNumOfUsersInTeam = 4; // maximum supported currently is 6, can be only enforce 6 or lower.
 module.exports = {
     port: port,
     host: host,
@@ -22,3 +22,4 @@ module.exports = {
     maxNumOfUsersInTeam: maxNumOfUsersInTeam,
     adminEmail: adminEmail
 };
+
