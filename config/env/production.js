@@ -1,5 +1,5 @@
-var port = process.env.WEB_PORT || 80;
-var host = process.env.IP || '127.0.0.1';
+var port = process.env.WEB_PORT || 8080;
+var host = process.env.IP || 'localhost';
 var mongo = process.env.MONGO_URL || '';
 var emailAddr = process.env.EMAIL_ADDR || '';
 var emailPass = process.env.EMAIL_PASS || '';

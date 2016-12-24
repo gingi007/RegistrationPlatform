@@ -8,7 +8,7 @@ var db = mongoose(),
     app = express(),
     passport = passport();
 
-app.listen(config.port);
+app.listen(8080);
 
 module.exports = app;
 console.log(process.env.NODE_ENV + ' server running at http://' + config.host + ':' + config.port);
