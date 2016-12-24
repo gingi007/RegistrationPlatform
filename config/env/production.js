@@ -12,7 +12,7 @@ var maxNumOfUsersInTeam = 4; // maximum supported currently is 6, can be only en
 module.exports = {
     port: port,
     host: host,
-    db: mongo,
+    db: "mongodb://mta.hackathon:mtahack2017@ds145178.mlab.com:45178/registrationplatform",
     emailAddr: emailAddr,
     emailPass: emailPass,
     supportEmailAddr: supportEmailAddr,
