@@ -12,7 +12,7 @@ var adminEmail= 'mta.hackathon@gmail.com';
 module.exports = {
     port: port,
     host: host,
-    db: 'mongodb://localhost/hackathon-users',
+    db: 'mongodb://localhost/registrationplatform',
     emailAddr: 'mta.hackathon@gmail.com',
     emailPass: 'mtahack2017',
     supportEmailAddr: 'mta.hackathon@gmail.com',
@@ -22,3 +22,4 @@ module.exports = {
     maxNumOfUsersInTeam: maxNumOfUsersInTeam,
     adminEmail: adminEmail
 };
+
