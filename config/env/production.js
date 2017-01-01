@@ -23,4 +23,3 @@ module.exports = {
     adminEmail: adminEmail
 };
 
-EMAIL_ADDR="mta.hackathon@gmail.com" EMAIL_PASS="mtahack2017" SUPP_EMAIL_ADDR="mta.hackathon@gmail.com" ADMIN_EMAIL="mta.hackathon@gmail.com"

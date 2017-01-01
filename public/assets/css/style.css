@@ -393,7 +393,7 @@ footer {
 
 .main-site-head-team {
     font-size: 34px;
-    color: whitesmoke;
+    font-weight: bold;
 }
 
 .form-group textarea {
@@ -481,7 +481,6 @@ footer {
 
     .main-site-head-team {
         font-size: 20px;
-        color: whitesmoke;
     }
 
     .form-signin {
