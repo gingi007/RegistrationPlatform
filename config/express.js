@@ -3,6 +3,7 @@ var config = require('./config'),
     bodyParser = require('body-parser'),
     passport = require('passport'),
     flash = require('connect-flash'),
+    morgan =require('morgan'),
     session = require('express-session'),
     helmet = require('helmet');
 
@@ -23,6 +24,7 @@ module.exports = function () {
 
     app.set('views', './app/views');
     app.set('view engine', 'ejs');
+    app.use(morgan("dev"));
 
     app.use(flash());
     app.use(passport.initialize());
