@@ -8,10 +8,8 @@ var User = require('mongoose').model('User'),
 //Init the SMTP transport
 var smtpConfig = {
     host: 'smtp.gmail.com',
-	port: 587,
-	requiresAuth: true,
-	secureConnection: false,
-	domains: ["gmail.com", "googlemail.com"],
+    port: 465,
+    secure: true, // use SSL
     auth: {
         user: config.emailAddr,
         pass: config.emailPass
