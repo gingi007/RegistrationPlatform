@@ -4,14 +4,17 @@ var users = require('../../app/controllers/users.server.controller'),
 
 module.exports = function (app) {
     app.route('/users')
-        .post(users.permissionCheck, params.isRegistrationOpen, users.create)
+        .post(users.isUserAdminRole, params.isRegistrationOpen, users.create)
         .get(users.permissionCheck, users.list);
 
     app.route('/users/:userId')
         .get(users.logedIn, users.read)
-        .put(users.permissionCheck, users.update)
-        .delete(users.permissionCheck, users.delete);
+        .put(users.isUserAdminRole, users.update)
+        .delete(users.isUserAdminRole, users.delete);
     app.param('userId', users.userByID);
+
+    app.route('/users/superadmin/:userId')
+        .put(users.isUserSuperAdminRole, users.update);
 
     app.route("/resetme")
         .put(params.isRegistrationOpen, users.passer);
@@ -23,7 +26,7 @@ module.exports = function (app) {
         post(params.isRegistrationOpen, users.forgot);
 
     app.route('/resetme/:resetId').get(params.isRegistrationOpen, users.renderResetme);
-    app.route('/printUsers').get(users.permissionCheck, users.renderPrintUsers);
+    app.route('/printUsers').get(users.isUserAdminRole, users.renderPrintUsers);
 
     app.route('/login')
         .get(users.renderLogin)
@@ -33,9 +36,11 @@ module.exports = function (app) {
             failureFlash: true
         }));
 
+
+
     app.route('/rsvp/:userIdToUpdate').get(users.userAgree);
 
-    app.route('/reset').get(users.permissionCheck, users.renderReset);
+    app.route('/reset').get(users.isUserAdminRole, users.renderReset);
 
     app.get('/logout', users.logout);
 

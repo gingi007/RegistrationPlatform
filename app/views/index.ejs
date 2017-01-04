@@ -18,8 +18,10 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
@@ -44,7 +46,7 @@
 </head>
 
 <body>
-
+<% %>
 <!-- Top menu -->
 <nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
     <div class="container">
@@ -62,8 +64,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <% if (user) { %>
-                    <a href="/logout">Logout</a>
-                    <% } %>
+                       <a href="/logout">Logout</a>
+                    <% if ((user.role === ROLES.Admin) || (user.role === ROLES.SuperAdmin)){ %>
+                    <span class="li-social">
+                        <a href="/printUsers"><i class="fa fa-users"></i></a>
+                    </span>
+                    <% }} %>
                 </li>
                 <li>
                             <span class="li-social">
@@ -143,7 +149,8 @@
                                 <input type="password" name="password" id="password" class="form-control input-lg"
                                        placeholder="Password">
                             </div>
-                            <div class="row"><a href="/forgot" class="btn btn-link pull-right">Forgot Password?</a></div>
+                            <div class="row"><a href="/forgot" class="btn btn-link pull-right">Forgot Password?</a>
+                            </div>
 
                             <hr class="colorgraph">
                             <div class="row">
@@ -182,7 +189,9 @@
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/retina.js/2.1.0/retina.min.js"></script>
 <script src="assets/js/scripts.js"></script>

@@ -1,6 +1,7 @@
 var Team = require('mongoose').model('Team');
 var Param = require('mongoose').model('Param'),
-    config = require('../../config/config');
+    config = require('../../config/config'),
+    Roles = require('./../models/user.server.model').ROLES;
 
 /**
  * This method renders
@@ -18,7 +19,8 @@ exports.render = function (req, res) {
                         eventname: config.eventname,
                         eventwebsite: config.eventwebsite,
                         eventfacebook: config.eventfacebook,
-                        maxusers: config.maxNumOfUsersInTeam
+                        maxusers: config.maxNumOfUsersInTeam,
+                        ROLES: Roles
                     });
                 } else {
                     var index = team.members.indexOf(team.admin_email);
@@ -30,7 +32,8 @@ exports.render = function (req, res) {
                         eventname: config.eventname,
                         eventwebsite: config.eventwebsite,
                         eventfacebook: config.eventfacebook,
-                        maxusers: config.maxNumOfUsersInTeam
+                        maxusers: config.maxNumOfUsersInTeam,
+                        ROLES: Roles
                     });
                 }
             });
@@ -41,7 +44,8 @@ exports.render = function (req, res) {
                 eventname: config.eventname,
                 eventwebsite: config.eventwebsite,
                 eventfacebook: config.eventfacebook,
-                maxusers: config.maxNumOfUsersInTeam
+                maxusers: config.maxNumOfUsersInTeam,
+				ROLES: Roles
             });
         }
     } else {
@@ -52,7 +56,8 @@ exports.render = function (req, res) {
             eventname: config.eventname,
             eventwebsite: config.eventwebsite,
             eventfacebook: config.eventfacebook,
-            maxusers: config.maxNumOfUsersInTeam
+            maxusers: config.maxNumOfUsersInTeam,
+			ROLES: Roles
         })
     }
 

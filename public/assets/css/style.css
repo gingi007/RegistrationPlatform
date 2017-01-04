@@ -302,6 +302,10 @@ ul.navbar-nav {
     border-color: #19b9e7;
 }
 
+/*table*/
+thead th{
+    text-align: center;
+}
 /*teams*/
 
 

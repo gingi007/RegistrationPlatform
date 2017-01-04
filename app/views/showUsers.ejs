@@ -10,11 +10,10 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/form-elements.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+          integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,7 +22,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <![endif]-->
-
     <!-- Favicon and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
@@ -52,7 +50,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="<%= eventwebsite %>"><strong><%= eventname %></strong></a>
-							<span class="li-social">
+                    <span class="li-social">
 								<a href="<%= eventfacebook %>"><i class="fa fa-facebook"></i></a>
 
 							</span>
@@ -76,62 +74,77 @@
         </div>
         <div class="row">
             <div style="margin: 40px;">
-                <table style="background-color: white">
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>name</td>
-                        <td>email</td>
-                        <td>phone</td>
-                        <td>institute</td>
-                        <td>degree</td>
-                        <td>size</td>
-                        <td>food</td>
-                        <td>skills</td>
-                        <td>accepted?</td>
-                        <td>in team?</td>
-                        <td>team id</td>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Degree</th>
+                        <th>Shirt Size</th>
+                        <th>Diet</th>
+                        <th>Skills</th>
+                        <th>Accepted</th>
+                        <th>In Team</th>
+                        <th>Role</th>
                     </tr>
-
+                    </thead>
+                    <tbody>
                     <% for(var i = 0; i < users.length; i++) { %>
                     <tr>
-                        <td><input disabled class="printInputText"
-                                   value="<%= users[i].first_name + " " + users[i].last_name %>" id="fname"
-                                   type="text"/></td>
-                        <td><input disabled class="printInputText" value="<%= users[i].email %>" type="text"
-                                   id="email"/></td>
-                        <td><input disabled class="printInputText" value="<%= users[i].phone %>" type="text"
-                                   id="phone"/></td>
-                        <td><input disabled class="printInputText" value="<%= users[i].inst %>" type="text" id="inst"/>
-                        </td>
-                        <td><input disabled class="printInputText" value="<%= users[i].degree %>" type="text" id="deg"/>
-                        </td>
-                        <td><input disabled class="printInputText" value="<%= users[i].tshirt %>" type="text"
-                                   id="size"/></td>
-                        <td><input disabled class="printInputText" value="<%= users[i].food %>" type="text" id="food"/>
-                        </td>
-                        <td><select name="skills" id="skills">
-                                <% if (users[i].tags){ %>
-                                <% Object.keys(users[i].tags).forEach(function(key) { %>
+                        <td><span>
+                                <%= i + 1 %>
+                            </span></td>
+                        <td><%= users[i].first_name + " " + users[i].last_name %></td>
+                        <td><span id="email"><%= users[i].email %></span></td>
+                        <td><span class="phone"><%= users[i].phone %></span></td>
+                        <td><span class="deg"><%= users[i].degree %></span></td>
+                        <td><span class="size"><%= users[i].tshirt %></span></td>
+                        <td><span class="food"><%= users[i].food %></span></td>
+                        <td>
+                            <% if (users[i].tags) {
+                            %>
+                            <select name="skills" class="skills">
+                                <% Object.keys(users[i].tags).forEach(function(key){
+                                %>
                                 <option><%= users[i].tags[key] %> </option>
-                                <% })} %>
+                                <%
+                                }) %>
                             </select>
+                            <% } else { %>
+                            <span>No Skills</span>
+                            <%
+                            } %>
                         </td>
                         <td><input id="<%= users[i]._id %>" type="checkbox" name="isAccepted"
                                     <% if (users[i].accepted) { %>
                                    checked
                                     <% } %>
-                                    />
+                            />
                         </td>
                         <td><input data-uid="<%= users[i]._id %>" type="checkbox" name="isMember"
                                     <% if (users[i].isMember) { %>
                                    checked
                                     <% } %>
-                                    />
+                            />
                         </td>
-                        <td><input disabled class="printInputText" value="<%= users[i].team %>" type="text" id="team"/>
-                        </td>
+
+                        <td><select data-uid="<%= users[i]._id %>" name="role" class="role" >
+                                <% Object.keys(roles).forEach(function(key){ %>
+                                <option value="<%= key %>" <% if (users[i].role === roles[key]){ %>
+                                        selected
+                                        <% } %> >
+                                    <%= key %>
+
+                                </option>
+                                <% }) %>
+                            </select></td>
                     </tr>
                     <% } %>
+                    </tbody>
                 </table>
+
             </div>
 
         </div>
@@ -143,11 +156,19 @@
 
 
 <!-- Javascript -->
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"
+        integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
+        crossorigin="anonymous"></script>
+
+
 <script src="assets/js/jquery.backstretch.min.js"></script>
 <script src="assets/js/retina-1.1.0.min.js"></script>
 <script src="assets/js/scripts.js"></script>
+<script src="assets/js/admin.js"></script>
 <script src="assets/js/jquery.qtip.js"></script>
 
 <!--[if lt IE 10]>
@@ -157,3 +178,4 @@
 </body>
 
 </html>
+

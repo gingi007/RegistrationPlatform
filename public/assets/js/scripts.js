@@ -92,7 +92,7 @@ jQuery(document).ready(function () {
         console.log($(this).is(":checked"));
         $.ajax({
             url: '/users/' + $(this).attr('id'),
-            type: 'PUT',
+            method: 'PUT',
             data: {accepted: $(this).is(":checked")},
             success: function (data) {
                 if (data.status === 'ok') {
@@ -111,7 +111,7 @@ jQuery(document).ready(function () {
     $('input[name=isMember]').click(function () {
         $.ajax({
             url: '/users/' + $(this).data('uid'),
-            type: 'PUT',
+            method: 'PUT',
             data: {isMember: $(this).is(":checked")},
             success: function (data) {
                 if (data.status === 'ok') {
