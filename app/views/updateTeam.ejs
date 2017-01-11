@@ -1,310 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<% if (maxusers) { %>
-<script>
-    var maxMembers = parseInt(<%= maxusers %>) - 1;
-</script>
-<% }else{ %>
-<script>
-    var maxMembers = 5;
-</script>
-<% } %>
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= eventname %> Registration</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <script src="assets/CreativeButtons/js/modernizr.custom.js"></script>
-
-    <![endif]-->
-
-    <!-- Favicon and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-
-</head>
-
-<body>
-
-<!-- Top menu -->
-<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="/"><img class="logo-hack" src="/assets/img/mini-logo.png" alt=""/></a>
+<% include ./partials/header %>
+<div class="container team-data-edit mt-1">
+    <form id="updateTeamForm">
+        <input type="hidden" name="admin_email" value="<%= user.email %>"/>
+        <input type="hidden" name="team_admin_email" value="<%= team.admin_email %>"/>
+        <input type="hidden" name="team_id" id="teamId" value="<%= team._id %>"/>
+        <div class="form-group">
+            <label for="teamName">Team Name: </label>
+            <input type="text" class="form-control" value="<%= team.team_name %>" id="teamName" name="team_name"
+                   aria-describedby="teamNameHelp">
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="top-navbar-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <% if (user) { %>
-                    <a href="/logout">Logout</a>
-                    <% } %>
-                </li>
-                <li>
-                            <span class="li-social">
-							<a href="/team-up"><i class="fa fa-home"></i></a>
-                            </span>
-                </li>
-                <li>
-                            <span class="li-social">
-								<a href="<%= eventfacebook %>"><i class="fa fa-facebook"></i></a>
-
-							</span>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- Top content -->
-<div class="top-content">
-
-    <div class="inner-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 text">
-                    <h1><strong><%= eventname %></strong> Your team information</h1>
-
-                    <div class="description">
-                        <p>
-                            Here you can update you team details and add new members
-                        </p>
-                    </div>
-                </div>
-                <div class="col-sm-12 form-box">
-                    <div class="form-top">
-                        <div class="form-top-left">
-                            <h3>Update your team</h3>
-
-                            <p>Fill in the form below, please read the information sign before adding members to your
-                                team.</p>
-                        </div>
-                        <div class="form-top-right">
-                            <i class="fa fa-pencil"></i>
-                        </div>
-                    </div>
-                    <div class="form-bottom">
-                        <form id="form-team-update" role="form" action="/teams/<%= user.team %>" method="post"
-                              class="registration-form">
-                            <input type="hidden" name="admin_email" value="<%= user.email %>"/>
-                            <input type="hidden" name="team_admin_email" value="<%= team.admin_email %>"/>
-                            <input type="hidden" name="team_id" value="<%= user.team %>"/>
-
-                            <div class="row">
-                                <div class=" col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form-team-name">Team name</label>
-                                        <input type="text" name="team_name" value="<%= team.team_name %>"
-                                               placeholder="Your Team name...." class="form-team-name form-control"
-                                               id="form-first-name" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form-idea">Idea</label>
-                                        <textarea name="idea"
-                                                  placeholder="Please describe briefly your idea for the hackathon"
-                                                  class="form-idea form-control" id="form-idea"
-                                                  required><%= team.idea %></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form-team-isClosed">Are you looking for more team members?</label>
-                                        <select style="width: 100%" name="isClosed" class="form-team-isClosed"
-                                                id="isClosed">
-                                            <% if (team.isClosed) { %>
-                                            <option value=true>No</option>
-                                            <option value=false>Yes</option>
-                                            <% }else{ %>
-                                            <option value=false>Yes</option>
-                                            <option value=true>No</option>
-                                            <% } %>
-                                        </select>
-
-                                        <p style="display: <% if (team.isClosed){ %>none<% }else{ %>block<% } %>;"
-                                           id="moreMembersInfo">
-                                            <b>*</b> You have opened the option for matching other members to join your
-                                            team.
-                                            Matching requests will be sent to your email.
-                                            Make sure you manually add their email in the <%= eventname %> platform.</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div id="wrap-lookingText" class="form-group">
-                                        <label for="form-lookingText">What are you looking for?</label>
-                                        <textarea <% if (!team.isClosed) { %>required
-                                                <% } %>
-                                                  name="lookingText"
-                                                  placeholder="Please describe what kind of members you are looking for to join your team, e.g. Designers, Programmers and etc."
-                                                  class="form-lookingText form-control"
-                                                  id="form-lookingText"><%= team.lookingText %></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div data-amount="<%= team.members.length %>" id="members_list"
-                                         class="form-group members-list">
-                                        <label for="form-team-name"><span
-                                                    data-tooltip="In order to add a member, insert the member's email as used to register to the hackathon. You don't need to insert your own email. You can add up to <%= maxusers - 1 %> members to your team though you can also start with an empty team and add members later."
-                                                    class="form-pass-info glyphicon glyphicon-info-sign"
-                                                    id="information" data-hasqtip="128"
-                                                    aria-describedby="qtip-128"></span> Members <i id="add_mem"
-                                                                                                   class="fa fa-user-plus fa-2x"><label
-                                                        class="add-mem-label">Add members</label></i></label>
-                                        <% for(var i = 0; i < team.members.length; i++) { %>
-                                        <input style="display: inline-block;" type="text" name="mem<%= i %>"
-                                               value="<%= team.members[i] %>"
-                                               placeholder="Member's Email (used to register to the hackathon)"
-                                               class="form-member-name form-control" id="form-members-<%= i %>">
-                                        <i style="display: inline-block;" id="mem_rem_<%= i %>"
-                                           class="fa fa-user-times fa-2x"></i><i
-                                                class="mem-loader<%= i %> fa fa-spinner fa-pulse fa-2x"></i><i
-                                                class="mem-check<%= i %> fa fa-check fa-2x"></i><i
-                                                class="mem-warn<%= i %> fa fa-exclamation fa-2x"></i>
-                                        <span class="warn-text<%= i %>" style="display: block;"></span>
-                                        <% } %>
-                                        <% for(var i = team.members.length; i < 5; i++) { %>
-                                        <input style="display: <% i == 0 ? "inline-block" : "none"; %>;" type="text"
-                                               name="mem<%= i %>" value="<%= team.members[i] %>"
-                                               placeholder="Member's Email (used to register to the hackathon)"
-                                               class="form-member-name form-control" id="form-members-<%= i %>">
-                                        <i style="display: <% i == 0 ? "inline-block" : "none"; %>;"
-                                           id="mem_rem_<%= i %>" class="fa fa-user-times fa-2x"></i><i
-                                                class="mem-loader<%= i %> fa fa-spinner fa-pulse fa-2x"></i><i
-                                                class="mem-check<%= i %> fa fa-check fa-2x"></i><i
-                                                class="mem-warn<%= i %> fa fa-exclamation fa-2x"></i>
-                                        <span class="warn-text<%= i %>" style="display: block;"></span>
-                                        <% } %>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form-team-name">How many university computers do you need?</label>
-                                        <select style="" name="comp" class="form-team-isClosed" id="comp">
-                                            <option <% if (team.comp === "0"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="0">None
-                                            </option>
-                                            <option <% if (team.comp === "1"){ %>selected="selected" <% } %>value="1">
-                                                1
-                                            </option>
-                                            <option <% if (team.comp === "2"){ %>selected="selected" <% } %>value="2">
-                                                2
-                                            </option>
-                                            <option <% if (team.comp === "3"){ %>selected="selected" <% } %>value="3">
-                                                3
-                                            </option>
-                                            <option <% if (team.comp === "4"){ %>selected="selected" <% } %>value="4">
-                                                4
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="form-team-name">How many team members participated in a Hackathon
-                                            before?</label>
-                                        <select style="" name="exp" class="form-team-isClosed" id="exp">
-                                            <option <% if (team.exp === "0"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="0">None
-                                            </option>
-                                            <option <% if (team.exp === "1"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="1">1
-                                            </option>
-                                            <option <% if (team.exp === "2"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="2">2
-                                            </option>
-                                            <option <% if (team.exp === "3"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="3">3
-                                            </option>
-                                            <option <% if (team.exp === "4"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="4">4
-                                            </option>
-                                            <option <% if (team.exp === "5"){ %>selected="selected"
-                                                    <% } %>
-                                                    value="5">5
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <button id="submit_update" class="btn">Update Team</button>
-                                    <button class="btn" id="deleteTeamClk" data-teamId="<%= team._id %>"
-                                            data-userEmail="<%= team.admin_email %>"> Delete Team
-                                    </button>
-                                    <i style="display: none;" class="mem-loader-form fa fa-spinner fa-pulse fa-2x"></i>
-                                </div>
-
-                                <div class="col-lg-6">
-
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="teamIdea">Idea: </label>
+                    <textarea rows="4" type="text" class="form-control" id="teamIdea"
+                              aria-describedby="teamIdeaHelp" name="idea"><%= team.idea %></textarea>
                 </div>
             </div>
-
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="whatLoookingFor">What are we looking for: </label>
+                    <textarea rows="4" type="text" class="form-control" name="lookingText" id="whatLoookingFor"
+                              aria-describedby="whatLoookingForHelp"
+                              placeholder="Please describe what kind of members you are looking for to join your team, e.g. Designers, Programmers and etc."><%= team.lookingText %></textarea>
+                </div>
+            </div>
         </div>
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <label for="lookingForTeamMembers">Are you looking for team members?</label>
+                <select class="form-control" name="isClosed" id="lookingForTeamMembers">
+                    <option>Yes</option>
+                    <option
+                            <% if (team.isClosed) { %>
+                            selected
+                            <% } %>
+                    >No
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="howManyPC">How many computers do you need?</label>
+                <select class="form-control" id="howManyPC">
+                    <% var teamPC = parseInt(team.comp);
+                    for (var j = 0; j < maxUsersInTeam;j++) { %>
+                    <option
+                            <% if (teamPC === j) { %>
+                            selected
+                            <% } %>
+                    ><%= j %></option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="howManyHackathon">How many participated in a Hackathon before?</label>
+            <select class="form-control" id="howManyHackathon">
+                <% var wasInHackathon = parseInt(team.exp);
+                for (var k = 0; k < maxUsersInTeam;k++) { %>
+                <option
+                        <% if (wasInHackathon === k) { %>
+                        selected
+                        <% } %>
+                ><%= k %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5>Team Members</h5>
+                <ul class="list-group" id="teamMembers">
+                    <% for (var memIndex = 0;memIndex < team.members.length;memIndex++){ %>
+                    <li class="list-group-item">
+                        <span><%= team.members[memIndex] %></span>
+                        <button type="button" class="float-xs-right btn btn-danger btn-sm">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                    </li>
+                    <% } %>
+                    <% var teamNotFull = team.members.length < maxUsersInTeam; %>
+                    <button type="button" id="searchTeamMembers"
+                            class="text-xs-center list-group-item list-group-item-action <% if (teamNotFull) { %> list-group-item-info <% } else { %> list-group-item-danger <% } %>">
+                        <% if (teamNotFull) { %>
+                        Add Team Members (<%= team.members.length %>/<%= maxUsersInTeam %>)
+                        <% } else { %>
+                        Your group is full (<%= team.members.length %>/<%= maxUsersInTeam %>)
+                        <% } %>
+                    </button>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <h5>Waiting For Approval</h5>
+                <ul class="list-group" id="waitingForApprovalList">
+                    <!--<li class="list-group-item">-->
+                    <!--<span>adi22690@gmail.com</span>-->
+                    <!--<div class="float-xs-right">-->
+                    <!--<button type="button" class="btn btn-primary btn-sm">-->
+                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-danger btn-sm">-->
+                    <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <!--</li>-->
+                    <!--<li class="list-group-item">-->
+                    <!--<span>adi22690@gmail.com</span>-->
+                    <!--<div class="float-xs-right">-->
+                    <!--<button type="button" class="btn btn-primary btn-sm">-->
+                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-danger btn-sm">-->
+                    <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <!--</li>-->
+                    <!--<li class="list-group-item">-->
+                    <!--<span>adi22690@gmail.com</span>-->
+                    <!--<div class="float-xs-right">-->
+                    <!--<button type="button" class="btn btn-primary btn-sm">-->
+                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-danger btn-sm">-->
+                    <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                    <!--</div>-->
 
-    </div>
-
+                    <!--</li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="float-xs-right mt-1 mb-1">
+            <button id="updateGroupBtn" type="submit" class="btn btn-primary btn-lg">Update Group</button>
+        </div>
+    </form>
 </div>
-<!-- Javascript -->
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/js/jquery.backstretch.min.js"></script>
-<script src="assets/js/retina-1.1.0.min.js"></script>
-<script src="assets/js/scripts.js"></script>
-<script src="assets/js/jquery.qtip.js"></script>
-<script type="text/javascript" src="assets/js/jquery.modal.js"></script>
-<script src="assets/js/teamManagement.js"></script>
 
-
-<!--[if lt IE 10]>
-<script src="assets/js/placeholder.js"></script>
-<![endif]-->
-
-</body>
-
-</html>
+<div id="searchDialogForm" class="search-users-dialog-form" title="Search for users">
+    <form>
+        <div class="form-group">
+            <label for="emailInput">Enter User's Email Address</label>
+            <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+        </div>
+        <button id="addMemberToListBtn" class="btn btn-primary btn-sm">Add Member</button>
+    </form>
+    <div class="memberResults mt-1">
+        <ul class="list-group"></ul>
+    </div>
+</div>
+<% include ./partials/footer %>

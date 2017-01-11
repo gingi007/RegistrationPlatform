@@ -1,209 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<% if (maxusers) { %>
-<script>
-	var maxMembers = parseInt(<%= maxusers %>) - 1;
-</script>
-<% }else{ %>
-<script>
-	var maxMembers = 5;
-</script>
-<% } %>
-<head>
+<% include ./partials/header %>
+<% if ( user ) { %>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= eventname %> Registration</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/jquery.qtip.css"/>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <script src="assets/CreativeButtons/js/modernizr.custom.js"></script>
-
-    <![endif]-->
-
-    <!-- Favicon and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-
-</head>
-
-<body>
-<% %>
-<!-- Top menu -->
-<nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-navbar-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+<div class="container mt-2">
+    <div class="jumbotron">
+        <h3 class="display-4">Hello, <span class="font-weight-bold text-capitalize"><%= user.first_name %>!</span></h3>
+        <p class="lead">Welcome to MTA Hack Matching Platform.</p>
+        <hr class="my-4">
+        <p>What do you want to do?</p>
+        <p class="lead">
+            <button type="button" class="btn btn-primary btn-lg btn-block"
+                    onclick="location.href = '/<% if (user.isMember && user.email !== team.admin_email){ %>myTeam<% }else if (user.isMember) { %>updateTeam <% }else{ %>createTeam<% } %>';">
+                <% if (user.isMember && user.email !== team.admin_email){ %>
+                My Team
+                <% }else if (user.isMember) { %>
+                Update Your Team
+                <% }else{ %>
+                Create A Team
+                <% } %>
             </button>
-            <a href="/"><img class="logo-hack" src="/assets/img/mini-logo.png" alt=""/></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="top-navbar-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <% if (user) { %>
-                       <a href="/logout">Logout</a>
-                    <% if ((user.role === ROLES.Admin) || (user.role === ROLES.SuperAdmin)){ %>
-                    <span class="li-social">
-                        <a href="/printUsers"><i class="fa fa-users"></i></a>
-                    </span>
-                    <% }} %>
-                </li>
-                <li>
-                            <span class="li-social">
-							<a href="/team-up"><i class="fa fa-home"></i></a>
-                            </span>
-                </li>
-                <li>
-                            <span class="li-social">
-								<a href="<%= eventfacebook %>"><i class="fa fa-facebook"></i></a>
-							</span>
-                </li>
-            </ul>
-        </div>
+            <button type="button" class="btn btn-warning btn-lg btn-block" onclick="location.href = '/mingle';">
+                <% if (user.isMember) { %>
+                Other Teams
+                <% }else{ %>
+                Join A Team
+                <% } %>
+            </button>
+        </p>
     </div>
-</nav>
-
-<!-- Top content -->
-<div class="top-content">
-
-    <div class="inner-bg">
-        <div class="container">
-            <% if ( user ) { %>
-            <!-- user don't have a team - show 2 options join\create -->
-            <h1>Hello <%= user.first_name %>. Welcome to <%= eventname %> matching platform.</h1>
-
-            <div class="row">
-                <h2>What do you want to do?</h2>
-            </div>
-            <div class="row" style="margin-bottom: 15px">
-                <div class="col-lg-12">
-                    <div id="openTeam" class="btn btn-primary btn-lg btn-block btn-huge"
-                         onclick="location.href = '/<% if (user.isMember && user.email !== team.admin_email){ %>myTeam<% }else if (user.isMember) { %>updateTeam <% }else{ %>createTeam<% } %>';">
-                        <% if (user.isMember && user.email !== team.admin_email){ %>
-                        My Team
-                        <% }else if (user.isMember) { %>
-                        Update Your Team
-                        <% }else{ %>
-                        Create A Team
-                        <% } %>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 ">
-                    <div class="btn btn-warning btn-lg btn-block btn-huge" onclick="location.href = '/mingle';">
-                        <% if (user.isMember) { %>
-                        Other Teams
-                        <% }else{ %>
-                        Join A Team
-                        <% } %>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <span class="glyphicon glyphicon-info-sign"></span> <span class="how-it-works" onclick="
-                        modal({
-                        type: 'info',
-                        title: 'Information',
-                        text: '<p><b>If you have a team</b>- assign a team captain that will log in, create the team and add the members by their e-mails. If your team is looking for additional members, write a short description about you or your idea if you have one.</p><p><b>If you don\'t have a team</b>- log in and see what other teams are there and what are they looking for. To join a team you\'ll need to contact it\'s captain.</p><p>We recommend working in teams of up to 4 programmers and a designer.</p><p>if you have any questions or thoughts feel free to contact us at <%= suppemail %> .</p>',
-                        animate:true
-                        });
-                        " style="cursor:pointer;">How does it work?</span>
-            </div>
-            <% } else { %>
-            <h1><b>Welcome to <%= eventname %> Registration Website</b></h1>
-            <div class="row" style="margin-top:20px">
-                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                    <form role="form" action="/login" method="post">
-                        <fieldset>
-                            <h2>Please Sign In</h2>
-                            <hr class="colorgraph">
-                            <div class="form-group">
-                                <input type="email" name="username" id="username" class="form-control input-lg"
-                                       placeholder="User Name">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="password" id="password" class="form-control input-lg"
-                                       placeholder="Password">
-                            </div>
-                            <div class="row"><a href="/forgot" class="btn btn-link pull-right">Forgot Password?</a>
-                            </div>
-
-                            <hr class="colorgraph">
-                            <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <a href="/register" class="btn btn-lg btn-primary btn-block">Register</a>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div class="flash">
-                            <%= messages %>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <span class="glyphicon glyphicon-info-sign"></span> <span class="how-it-works" onclick="
-                        modal({
-                        type: 'info',
-                        title: 'Information',
-                        text: '<p><b>If you have a team</b>- assign a team captain that will log in, create the team and add the members by their e-mails. If your team is looking for additional members, write a short description about you or your idea if you have one.</p><p><b>If you don\'t have a team</b>- log in and see what other teams are there and what are they looking for. To join a team you\'ll need to contact it\'s captain.</p><p>We recommend working in teams of up to 4 programmers and a designer.</p><p>if you have any questions or thoughts feel free to contact us at <%= suppemail %> .</p>',
-                        animate:true
-                        });
-                        " style="cursor:pointer;">How does it work?</span>
-            </div>
-            <% } %>
-        </div>
-
-    </div>
-
 </div>
-<!-- Javascript -->
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/retina.js/2.1.0/retina.min.js"></script>
-<script src="assets/js/scripts.js"></script>
-<script src="assets/js/jquery.qtip.js"></script>
-<script type="text/javascript" src="assets/js/jquery.modal.js"></script>
-<script src="assets/js/teamManagement.js"></script>
 
+<% } else { %>
 
-<!--[if lt IE 10]>
-<script src="assets/js/placeholder.js"></script>
-<![endif]-->
+<div class="container mt-2">
+    <h5 class="display-4 text-xs-center font-weight-bold">Please Sign In</h5>
+    <form role="form" action="/login" method="post">
+        <hr class="colorgraph">
+        <div class="form-group">
+            <label for="username">Email address</label>
+            <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <a href="/forgot"><p class="form-text text-muted">Forgot password?</p></a>
+        </div>
+        <hr class="colorgraph">
+        <div class="row">
+            <div class="col-lg-6 mb-1">
+                <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
+            </div>
+            <div class="col-lg-6 mb-1">
+                <a href="/register" class="btn btn-lg btn-primary btn-block">Register</a>
+            </div>
+        </div>
+    </form>
+</div>
 
-</body>
-
-</html>
+<% } %>
+<% include ./partials/footer %>

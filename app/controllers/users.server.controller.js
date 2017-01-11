@@ -1,5 +1,6 @@
 var User = require('mongoose').model('User'),
 	Param = require('mongoose').model('Param'),
+	Team = require('mongoose').model('Team'),
 	passport = require('passport'),
 	nodemailer = require('nodemailer'),
 	config = require('../../config/config'),
@@ -89,14 +90,11 @@ var getErrorMessage = function(err) {
 exports.renderLogin = function(req, res, next) {
 	if (!req.user) {
 		res.render('index', {
-			title: 'Log-in Form',
-			messages: req.flash('error') || req.flash('info'),
-			user: null,
-			suppemail: config.supportEmailAddr,
-			eventname: config.eventname,
-			eventwebsite: config.eventwebsite,
-			eventfacebook: config.eventfacebook,
-			maxusers: config.maxNumOfUsersInTeam
+			user: '',
+			pageTitle: 'Login',
+			menu: [{name: 'Home', path: '/', isActive: true}],
+			messages: req.flash('error'),
+			eventName: config.eventname
 		});
 	}
 	else {
@@ -158,6 +156,53 @@ exports.renderPrintUsers = function(req, res, next) {
 	//} else {
 	//	return res.redirect('/');
 	//}
+};
+
+exports.renderAdminspace = function(req, res, next) {
+
+	User.find({}, function(err, users) {
+		if (err) {
+			return next(err);
+		} else {
+			Team.count({}, function(err, teamCount) {
+				res.render('adminspace', {
+					eventName: config.eventname,
+					pageTitle: 'Adminspace',
+					menu: [
+						{
+							name: 'Home',
+							path: '/',
+							isActive: false
+						},
+						{
+							name: 'Adminspace',
+							path: '/adminspace',
+							isActive: true
+						},
+						{
+							name: 'Logout',
+							path: '/logout',
+							isActive: false
+						}
+					],
+					usersCount: users.length,
+					approvedUsers: howManyUsersApproved(users),
+					teamCount: teamCount
+				});
+			});
+
+		}
+	});
+};
+
+var howManyUsersApproved = function(usersArr) {
+	var counter = 0;
+	usersArr.forEach(function(user) {
+		if (user.accepted) {
+			counter++;
+		}
+	});
+	return counter;
 };
 
 exports.renderParams = function(req, res, next) {
@@ -375,7 +420,6 @@ exports.saveOAuthUserProfile = function(req, profile, done) {
 	);
 };
 
-
 exports.create = function(req, res, next) {
 	var user = new User(req.body);
 	user.save(function(err) {
@@ -441,7 +485,6 @@ exports.userByID = function(req, res, next, id) {
 
 };
 
-
 exports.permissionCheck = function(req, res, next) {
 	if (req.user) {
 		User.findById(req.user._id, function(err, user) {
@@ -479,7 +522,7 @@ exports.isUserAdminRole = function(req, res, next) {
 		User.findById(req.user._id, function(err, user) {
 			if (err) {
 				return next(err);
-			} else if (user.role === ROLES.Admin || ROLES.SuperAdmin) {
+			} else if ((user.role === ROLES.Admin) || (user.role === ROLES.SuperAdmin)) {
 				next();
 			} else {
 				res.status(401).redirect('/login');
@@ -490,7 +533,6 @@ exports.isUserAdminRole = function(req, res, next) {
 	}
 
 };
-
 
 exports.update = function(req, res, next) {
 	User.findByIdAndUpdate(req.userDetails._id, req.body, function(err, user) {
@@ -514,7 +556,6 @@ exports.updateParam = function(req, res, next) {
 	});
 };
 
-
 exports.delete = function(req, res, next) {
 	req.user.remove(function(err) {
 		if (err) {
@@ -533,7 +574,6 @@ exports.logedIn = function(req, res, next) {
 		res.redirect('/login');
 	}
 };
-
 
 exports.userAgree = function(req, res, next) {
 	if (req.params.userIdToUpdate) {
@@ -579,6 +619,22 @@ exports.userAgree = function(req, res, next) {
 		res.status(400).send("<h4>no user token was sent, please try again or contact " + config.supportEmailAddr + "</h4>")
 	}
 };
+
+exports.searchUserByEmailAutocomplete = function(req, res) {
+	var regex = new RegExp(req.query["term"], 'i');
+	var query = User.find({'email': regex}, {'_id': 1, 'email':1});
+	query.exec(function(err, users) {
+		if (err) {
+			res.status(401).send(JSON.stringify(err));
+		} else {
+			res.json(users);
+		}
+	});
+};
+
+exports.renderAutoComplete = function(req, res){
+	res.render('autocomplete');
+}
 
 
 

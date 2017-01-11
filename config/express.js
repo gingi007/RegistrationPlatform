@@ -24,8 +24,6 @@ module.exports = function () {
 
     app.set('views', './app/views');
     app.set('view engine', 'ejs');
-    app.use(morgan("dev"));
-
     app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());

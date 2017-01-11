@@ -27,6 +27,7 @@ module.exports = function (app) {
 
     app.route('/resetme/:resetId').get(params.isRegistrationOpen, users.renderResetme);
     app.route('/printUsers').get(users.isUserAdminRole, users.renderPrintUsers);
+    app.route('/adminspace').get(users.isUserAdminRole, users.renderAdminspace);
 
     app.route('/login')
         .get(users.renderLogin)
@@ -35,8 +36,8 @@ module.exports = function (app) {
             failureRedirect: '/login',
             failureFlash: true
         }));
-
-
+    app.route('/search_member')
+        .get(users.logedIn, users.searchUserByEmailAutocomplete);
 
     app.route('/rsvp/:userIdToUpdate').get(users.userAgree);
 
@@ -44,5 +45,6 @@ module.exports = function (app) {
 
     app.get('/logout', users.logout);
 
-    app.post('/contactus', users.sendMail)
+    app.post('/contactus', users.sendMail);
+    app.get('/autocomplete', users.renderAutoComplete);
 };

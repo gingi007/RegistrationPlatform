@@ -1,0 +1,45 @@
+<% include ./partials/header %>
+<div class="container mt-2">
+    <div class="row">
+        <div class="card-deck-wrapper">
+            <div class="card-deck">
+                <div class="card text-xs-center">
+                    <div class="card-header text-capitalize">users</div>
+                    <div class="card-block">
+                        <i class="fa fa-user-circle fa-5x" style="color: RGBA(135, 181, 0, 1.00)"
+                           aria-hidden="true"></i>
+                        <h2 class="text-capitalize mt-1"><%= usersCount %> users</h2>
+                        <a href="/printUsers" class="btn btn-primary text-capitalize">users list</a>
+                    </div>
+                </div>
+                <div class="card text-xs-center">
+                    <div class="card-header text-capitalize">approved users</div>
+                    <div class="card-block ">
+                        <i class="fa  fa-user-plus fa-5x" style="color: RGBA(14, 139, 209, 1.00)"
+                           aria-hidden="true"></i>
+                        <h2 class="text-capitalize mt-1"><%= approvedUsers %> approved users</h2>
+                    </div>
+                </div>
+                <div class="card text-xs-center">
+                    <div class="card-header text-capitalize">teams</div>
+                    <div class="card-block ">
+                        <i class="fa  fa-users fa-5x" style="color: RGBA(250, 204, 39, 1.00)" aria-hidden="true"></i>
+                        <h2 class="text-capitalize mt-1"><%= teamCount %> teams</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-deck-wrapper">
+            <div class="card-deck">
+                <div class="card text-xs-center">
+                    <div class="card-header text-capitalize">Another undecided card</div>
+                    <div class="card-block ">
+                        <!--<i class="fa  fa-users fa-5x" style="color: RGBA(250, 204, 39, 1.00)" aria-hidden="true"></i>-->
+                        <h2 class="text-capitalize mt-1">dont know yet</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ./partials/footer %>

@@ -61,31 +61,7 @@ jQuery(document).ready(function () {
 
 
     // handle skill tags in form
-    $(function () {
 
-        $('#tags input').on('focusout', function () {
-            var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); // allowed characters
-            if (txt) {
-                $(this).before('<span class="tag" data-tag=' + txt.toLowerCase() + '>' + txt.toLowerCase() + '<span class="form-rem-tag glyphicon glyphicon-remove"></span></span>');
-            }
-            this.value = "";
-        }).on('keyup', function (e) {
-            // if: comma,enter (delimit more keyCodes with | pipe)
-            if (/(188|13)/.test(e.which)) $(this).focusout();
-
-        });
-
-
-        $('#tags').on('click', '.tag', function () {
-            $(this).remove();
-        });
-
-    });
-    $('[data-tooltip!=""]').qtip({ // Grab all elements with a non-blank data-tooltip attr.
-        content: {
-            attr: 'data-tooltip', // Tell qTip2 to look inside this attr for its content
-        }
-    });
 
     $('input[name=isAccepted]').click(function () {
         var email = $('#' + $(this)[0].id).data('email');
@@ -128,6 +104,39 @@ jQuery(document).ready(function () {
     });
 
 
+	$("#searchInput").keyup(function () {
+		//split the current value of searchInput
+		var data = this.value.split(" ");
+		//create a jquery object of the rows
+		var jo = $("#fbody").find("tr");
+		if (this.value == "") {
+			jo.show();
+			return;
+		}
+		//hide all the rows
+		jo.hide();
+
+		//Recusively filter the jquery object to get results.
+		jo.filter(function (i, v) {
+			var $t = $(this);
+			for (var d = 0; d < data.length; ++d) {
+				if ($t.is(":contains('" + data[d] + "')")) {
+					return true;
+				}
+			}
+			return false;
+		})
+		//show the rows that match.
+			.show();
+	}).focus(function () {
+		this.value = "";
+		$(this).css({
+			"color": "black"
+		});
+		$(this).unbind('focus');
+	}).css({
+		"color": "#C0C0C0"
+	});
     $('#loginClk').on('click', function () {
         $(this).css("display", "none");
         $('#signinRow').css("display", "block");

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+          integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./../../public/assets/css/style.css">
+    <meta charset="UTF-8">
+    <title>MTA Hack 2017 Registration</title>
+
+</head>
+<!-- Top menu -->
+<nav class="navbar navbar-light bg-faded">
+    <a class="navbar-brand" href="/">MTA Hack 2017<span style="font-weight: bold"> Update your team</span></a>
+    <ul class="nav navbar-nav float-xs-right">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/updateTeam">My Team</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<body>
+<div class="container mt-2" style="display: none">
+    <div class="jumbotron">
+        <h3 class="display-4">Hello, <span class="font-weight-bold">Shilo!</span></h3>
+        <p class="lead">Welcome to MTA Hack Matching Platform.</p>
+        <hr class="my-4">
+        <p>What do you want to do?</p>
+        <p class="lead">
+            <button type="button" class="btn btn-primary btn-lg btn-block">Create a team</button>
+            <button type="button" class="btn btn-warning btn-lg btn-block">Join a team</button>
+        </p>
+    </div>
+</div>
+
+<div class="container mt-2">
+    <h5 class="display-4 text-xs-center font-weight-bold">Please Sign In</h5>
+    <form role="form" action="/login" method="post">
+        <hr class="colorgraph">
+        <div class="form-group">
+            <label for="username">Email address</label>
+            <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp"
+                   placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            <a href="/forgot"><p class="form-text text-muted">Forgot password?</p></a>
+        </div>
+        <hr class="colorgraph">
+        <div class="row">
+            <div class="col-lg-6 mb-1">
+                <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign In">
+            </div>
+            <div class="col-lg-6 mb-1">
+                <a href="/register" class="btn btn-lg btn-primary btn-block">Register</a>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+
+
+<div class="container social-icons mt-3 text-xs-center ">
+    <a href="http://twitter.com/minimalmonkey" class="icon-button twitter"><i
+            class="fa fa-twitter fa-1x"></i><span></span></a>
+    <a href="http://facebook.com" class="icon-button facebook"><i class="fa fa-facebook fa-1x"></i><span></span></a>
+    <a href="http://plus.google.com" class="icon-button google-plus"><i
+            class="fa fa-google-plus fa-1x"></i><span></span></a>
+</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+        integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js"
+        integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"
+        integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
+        crossorigin="anonymous"></script>
+</html>

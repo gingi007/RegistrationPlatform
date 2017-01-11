@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     //cancel enter key
     $(window).keydown(function (event) {
         if (event.keyCode == 13) {
@@ -52,7 +51,8 @@ $(document).ready(function () {
             }
             $('.mem-loader' + mem_id).css('display', 'inline-block');
             $.ajax({
-                url: "/users/" + $(this).val(), success: function (user) {
+                url: "/users/" + $(this).val(),
+                success: function (user) {
                     /*
                      if (!user.accepted){
                      $('.warn-text'+mem_id).text("This user does not exist.");
