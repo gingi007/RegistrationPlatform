@@ -1,8 +1,8 @@
 <% include ./partials/header %>
 <div class="container team-data-edit mt-1">
     <form id="updateTeamForm">
-        <input type="hidden" name="admin_email" value="<%= user.email %>"/>
-        <input type="hidden" name="team_admin_email" value="<%= team.admin_email %>"/>
+        <input type="hidden" name="admin_email" id="userEmail" value="<%= user.email %>"/>
+        <input type="hidden" name="team_admin_email" id="team_admin_email" value="<%= team.admin_email %>"/>
         <input type="hidden" name="team_id" id="teamId" value="<%= team._id %>"/>
         <div class="form-group">
             <label for="teamName">Team Name: </label>
@@ -41,9 +41,9 @@
             </div>
             <div class="form-group col-lg-6">
                 <label for="howManyPC">How many computers do you need?</label>
-                <select class="form-control" id="howManyPC">
+                <select class="form-control" name="comp" id="howManyPC">
                     <% var teamPC = parseInt(team.comp);
-                    for (var j = 0; j < maxUsersInTeam;j++) { %>
+                    for (var j = 0; j <= maxUsersInTeam;j++) { %>
                     <option
                             <% if (teamPC === j) { %>
                             selected
@@ -55,9 +55,9 @@
         </div>
         <div class="form-group">
             <label for="howManyHackathon">How many participated in a Hackathon before?</label>
-            <select class="form-control" id="howManyHackathon">
+            <select class="form-control" name="exp" id="howManyHackathon">
                 <% var wasInHackathon = parseInt(team.exp);
-                for (var k = 0; k < maxUsersInTeam;k++) { %>
+                for (var k = 0; k <= maxUsersInTeam;k++) { %>
                 <option
                         <% if (wasInHackathon === k) { %>
                         selected
@@ -70,16 +70,23 @@
             <div class="col-lg-6">
                 <h5>Team Members</h5>
                 <ul class="list-group" id="teamMembers">
-                    <% for (var memIndex = 0;memIndex < team.members.length;memIndex++){ %>
+                    <% console.log(team) %>
+                    <% for (var x = 0; x < team.members.length; x++){ %>
                     <li class="list-group-item">
-                        <span><%= team.members[memIndex] %></span>
-                        <button type="button" class="float-xs-right btn btn-danger btn-sm">
+                        <span><%= team.members[x] %></span>
+                        <% if (team.members[x] !== team.admin_email) { %>
+                        <button type="button" class="float-xs-right btn btn-danger btn-sm removeUserFromTeam">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </button>
+                        <% } %>
                     </li>
                     <% } %>
                     <% var teamNotFull = team.members.length < maxUsersInTeam; %>
-                    <button type="button" id="searchTeamMembers"
+                    <button type="button"
+                            <% if (!teamNotFull) { %>
+                            disabled
+                            <% } %>
+                            id="searchTeamMembers"
                             class="text-xs-center list-group-item list-group-item-action <% if (teamNotFull) { %> list-group-item-info <% } else { %> list-group-item-danger <% } %>">
                         <% if (teamNotFull) { %>
                         Add Team Members (<%= team.members.length %>/<%= maxUsersInTeam %>)
@@ -92,45 +99,28 @@
             <div class="col-lg-6">
                 <h5>Waiting For Approval</h5>
                 <ul class="list-group" id="waitingForApprovalList">
-                    <!--<li class="list-group-item">-->
-                    <!--<span>adi22690@gmail.com</span>-->
-                    <!--<div class="float-xs-right">-->
-                    <!--<button type="button" class="btn btn-primary btn-sm">-->
-                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-danger btn-sm">-->
-                    <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
-                    <!--</button>-->
-                    <!--</div>-->
-                    <!--</li>-->
-                    <!--<li class="list-group-item">-->
-                    <!--<span>adi22690@gmail.com</span>-->
-                    <!--<div class="float-xs-right">-->
-                    <!--<button type="button" class="btn btn-primary btn-sm">-->
-                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-danger btn-sm">-->
-                    <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
-                    <!--</button>-->
-                    <!--</div>-->
-                    <!--</li>-->
-                    <!--<li class="list-group-item">-->
-                    <!--<span>adi22690@gmail.com</span>-->
-                    <!--<div class="float-xs-right">-->
-                    <!--<button type="button" class="btn btn-primary btn-sm">-->
-                    <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
-                    <!--</button>-->
-                    <!--<button type="button" class="btn btn-danger btn-sm">-->
-                    <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
-                    <!--</button>-->
-                    <!--</div>-->
-
-                    <!--</li>-->
+                    <% var teamAppliers = team.appliedMembers || [];
+                    for (var z = 0;z < teamAppliers.length;z++){ %>
+                    <li class="list-group-item">
+                        <span><%= teamAppliers[z] %></span>
+                        <div class="float-xs-right">
+                            <button type="button" class="btn btn-primary btn-sm approve-user">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm disapprove-user">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <% } if (teamAppliers.length === 0) { %>
+                    <li class="list-group-item"><span>There is no application for your team, yet</span></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
         <div class="float-xs-right mt-1 mb-1">
-            <button id="updateGroupBtn" type="submit" class="btn btn-primary btn-lg">Update Group</button>
+            <button id="updateGroupBtn" type="submit" class="btn btn-primary btn-lg">Update Team</button>
+            <button id="deleteGroupBtn" class="btn btn-danger btn-lg">Delete Team</button>
         </div>
     </form>
 </div>
@@ -142,10 +132,7 @@
             <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
                    placeholder="Enter email">
         </div>
-        <button id="addMemberToListBtn" class="btn btn-primary btn-sm">Add Member</button>
+        <button id="addMember" class="btn btn-primary btn-sm">Add Member</button>
     </form>
-    <div class="memberResults mt-1">
-        <ul class="list-group"></ul>
-    </div>
 </div>
 <% include ./partials/footer %>

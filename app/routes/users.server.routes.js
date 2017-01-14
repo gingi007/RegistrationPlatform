@@ -46,5 +46,4 @@ module.exports = function (app) {
     app.get('/logout', users.logout);
 
     app.post('/contactus', users.sendMail);
-    app.get('/autocomplete', users.renderAutoComplete);
 };

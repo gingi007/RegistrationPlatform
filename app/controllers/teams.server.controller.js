@@ -16,12 +16,34 @@ var Team = require('mongoose').model('Team'),
 	Param = require('mongoose').model('Param'),
 	passport = require('passport'),
 	async = require("async"),
-	config = require('../../config/config');
+	config = require('../../config/config'),
+	USER_ERRORS = require('./../models/user.server.model').USER_ERROR_TYPES,
+	TEAM_ERRORS = require('./../models/team.server.model').TEAM_ERROR_TYPES;
+
 
 var getErrorMessage = function(err) {
 	var message = '';
 	if (err.code) {
 		switch (err.code) {
+			case USER_ERRORS.USER_ALREADY_IN_TEAM:
+
+				message = {
+					text: 'User Already In Team',
+					status: USER_ERRORS.USER_ALREADY_IN_TEAM
+				};
+				break;
+			case USER_ERRORS.USER_NOT_FOUND:
+				message = {
+					text: 'User was not found',
+					status: USER_ERRORS.USER_NOT_FOUND
+				};
+				break;
+			case TEAM_ERRORS.TEAM_FULL:
+				message = {
+					text: 'Team Full',
+					status: TEAM_ERRORS.TEAM_FULL
+				};
+				break;
 			case 11000:
 			case 11001:
 				message = 'Team already exists';
@@ -36,7 +58,6 @@ var getErrorMessage = function(err) {
 				message = err.errors[errName].message;
 		}
 	}
-
 	return message;
 };
 
@@ -96,8 +117,6 @@ exports.createUpdateTeamPage = function(req, res, next) {
 			else if (req.user.email !== team.admin_email) {
 				return res.redirect('/myTeam');
 			} else {
-				var index = team.members.indexOf(team.admin_email);
-				team.members.splice(index, 1);
 				return res.render('updateTeam', {
 					user: req.user,
 					team: team,
@@ -142,8 +161,7 @@ exports.create = function(req, res, next) {
 				})
 
 			}
-			console.log(err)
-
+			console.log(err);
 			return next(err);
 		}
 		else {
@@ -296,7 +314,6 @@ exports.preVerifyNewTeamMembers = function(req, res, next) {
 	var new_members = req.body.members;
 	if (req.team) {
 		new_members = req.body.members.diff(req.team.members);
-
 	}
 
 	if (req.body.members.length > config.maxNumOfUsersInTeam) {
@@ -308,7 +325,6 @@ exports.preVerifyNewTeamMembers = function(req, res, next) {
 						endQueryNotify(err);
 					} else if (!user) {
 						endQueryNotify("couldn't find new members email (" + member + ") in list");
-
 					}
 					else if (user.isMember) {
 						endQueryNotify(member + " already a member of a team");
@@ -417,3 +433,71 @@ exports.logedIn = function loggedIn(req, res, next) {
 	}
 };
 
+exports.addUserApplicationToTeam = function(req, res) {
+	User.addTeamApplyToUser(req.user, req.params.teamId)
+		.then(Team.addUserToAppliers.bind(Team))
+		.then(function(team) {
+			console.log("User was added to team" + team.team_name);
+			res.json("User was added to team" + team.team_name);
+		})
+		.catch(function(err) {
+			res.status(500).json(getErrorMessage(err));
+		})
+		.done();
+};
+
+exports.approveUserByTeamAdmin = function(req, res) {
+	User.approveTeamOnUser(req.body.userEmail, req.params.teamId)
+		.then(Team.addUserToTeam.bind(Team))
+		.then(function(team) {
+			console.log("User approved on team " + team.team_name);
+			res.json("User approved on team " + team.team_name);
+		})
+		.catch(function(err) {
+			if (err.code === TEAM_ERRORS.TEAM_FULL || err.code === USER_ERRORS.USER_ALREADY_IN_TEAM) {
+				res.status(405).send(getErrorMessage(err));
+			} else {
+				res.status(500).json(err);
+			}
+		})
+		.done();
+};
+
+exports.disapproveUserByTeamAdmin = function(req, res) {
+	User.dispproveTeamOnUser(req.body.userEmail, req.params.teamId)
+		.then(Team.removeUserFromApplied.bind(Team))
+		.then(function(team) {
+			console.log("User removed from appliers on team " + team.team_name);
+			res.json("User removed from appliers on team " + team.team_name);
+		})
+		.catch(function(err) {
+			res.status(500).json(getErrorMessage(err));
+		})
+		.done();
+};
+
+exports.addMemberToTeam = function(req, res) {
+	User.addTeamToUser(req.body.userEmail, req.params.teamId)
+		.then(Team.addUserToTeam.bind(Team))
+		.then(function(team) {
+			console.log("User " + req.body.userEmail + " was added to team " + team.team_name);
+			res.send("User " + req.body.userEmail + " was added to team " + team.team_name);
+		})
+		.catch(function(err) {
+			res.status(500).json(getErrorMessage(err));
+		})
+		.done();
+};
+
+exports.removeTeamMemberFromTeam = function(req, res) {
+	User.removeTeamFromUser(req.body.userEmail, req.params.teamId)
+		.then(Team.removeUserFromTeam.bind(Team))
+		.then(function(team) {
+			console.log("User " + req.body.userEmail + " was removed from team " + team.team_name);
+			res.send("User " + req.body.userEmail + " was removed from team " + team.team_name);
+		})
+		.catch(function(err) {
+			res.status(500).json(getErrorMessage(err));
+		})
+		.done();
+};

@@ -8,13 +8,13 @@ var Param = require('mongoose').model('Param'),
  * @param req
  * @param res
  */
-exports.render = function(req, res) {
-	var defaultMenu = [
-			{name: 'Home', path: '/', isActive: true},
-			{name: 'Logout', path: '/logout', isActive: false}
-		],
-		defaultTitle = 'Welcome';
+var defaultMenu = [
+		{name: 'Home', path: '/', isActive: true},
+		{name: 'Logout', path: '/logout', isActive: false}
+	],
+	defaultTitle = 'Welcome';
 
+exports.render = function(req, res) {
 	if (req.user) {
 		if (req.user.isMember) {
 			Team.findOne({_id: req.user.team}, function(err, team) {

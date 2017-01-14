@@ -28,6 +28,7 @@ module.exports = function () {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(helmet());
+    app.use(morgan("dev"));
     require('../app/routes/index.server.routes.js')(app);
     require('../app/routes/users.server.routes.js')(app);
     require('../app/routes/teams.server.routes.js')(app);

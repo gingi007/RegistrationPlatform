@@ -66,28 +66,35 @@ $(function() {
 
 		return json;
 	};
-	var addMembers = function addMember() {
-		var membersList = $('.memberResults'),
-			memberListArr = membersList.find('li').toArray(),
-			currentTeamMembersList = $('#currentTeamMembers'),
-			currentTeamMembersBtn = currentTeamMembersList.find('#searchTeamMembers');
-		currentTeamMembersBtn.remove();
-		memberListArr.forEach(function(member) {
-			var memberItem = $('<li />').addClass('list-group-item').data('user', $(member).data('user'))
-				.append($('<span />').text($(member).data('user').label))
-				.append($('<button />').addClass('float-xs-right btn btn-danger btn-sm').click(function(e) {
-					e.preventDefault();
-					$(this).closest('li').remove();
-				})
-					.append($('<i />').addClass('fa fa-times')));
-			currentTeamMembersList.append(memberItem);
-		});
-		currentTeamMembersBtn.click(function() {
-			dialog.dialog('open');
-		});
-		currentTeamMembersList.append(currentTeamMembersBtn);
-		$('.memberResults').empty();
-		dialog.dialog('close');
+	// var addMembers = function addMember() {
+	// 	var membersList = $('.memberResults'),
+	// 		memberListArr = membersList.find('li').toArray(),
+	// 		currentTeamMembersList = $('#teamMembers'),
+	// 		currentTeamMembersBtn = currentTeamMembersList.find('#searchTeamMembers');
+	// 	currentTeamMembersBtn.remove();
+	// 	memberListArr.forEach(function(member) {
+	// 		var memberItem = $('<li />').addClass('list-group-item').data('user', $(member).data('user'))
+	// 			.append($('<span />').text($(member).data('user').label))
+	// 			.append($('<button />').addClass('float-xs-right btn btn-danger btn-sm').click(function(e) {
+	// 				e.preventDefault();
+	// 				$(this).closest('li').remove();
+	// 			})
+	// 				.append($('<i />').addClass('fa fa-times')));
+	// 		currentTeamMembersList.append(memberItem);
+	// 	});
+	// 	currentTeamMembersBtn.click(function() {
+	// 		dialog.dialog('open');
+	// 	});
+	// 	currentTeamMembersList.append(currentTeamMembersBtn);
+	// 	$('.memberResults ul').empty();
+	// 	dialog.dialog('close');
+	// };
+	var errorHandler = function errorHandler(err){
+		if (err.responseJSON.status){
+			toastr.error(err.responseJSON.text, 'Error');
+		} else {
+			toastr.error('Please contact administrator ASAP', 'Error');
+		}
 	};
 	var isUserAlreadyOnList = function isUserAlreadyOnList(userID) {
 		var membersList = $('.memberResults').find('li').toArray();
@@ -109,35 +116,99 @@ $(function() {
 		memArr.push(adminEmail);
 		return memArr;
 	};
+	var approveUserOnTeam = function approveUserOnTeam(e, val, userEmail) {
+		e.preventDefault();
+		var teamID = $('#teamId').val();
+		var data = {userEmail: userEmail, admin_email: $('#team_admin_email').val()};
+		$.ajax({
+			method: val ? 'POST' : 'DELETE',
+			url: 'teams/' + teamID + '/approve',
+			data: data,
+			success: function() {
+				location.reload();
+			},
+			error: errorHandler
+		});
+	};
+	var removeMemberFromTeam = function addRemoveMember(e) {
+		e.preventDefault();
+		var teamID = $('#teamId').val();
+		var data = {
+			userEmail: $(this).closest('li').find('span').text().trim(),
+			admin_email: $('#team_admin_email').val()
+		};
+		$.ajax({
+			method: 'DELETE',
+			url: 'teams/' + teamID + '/member',
+			data: data,
+			success: function() {
+				location.reload();
+			},
+			error: errorHandler
+		});
+	};
+	var addMemberToTeam = function addMemberToTeam(e) {
+		e.preventDefault();
+		var inputValue = $('#searchDialogForm').find('input');
+		var userEmail = inputValue.data('user') ? inputValue.data('user').value : inputValue.val(),
+			teamID = $('#teamId').val(),
+			data = {
+				userEmail: userEmail,
+				admin_email: $('#team_admin_email').val()
+			};
+		$.ajax({
+			method: 'POST',
+			url: 'teams/' + teamID + '/member',
+			data: data,
+			success: function() {
+				location.reload();
+			},
+			error: errorHandler
+		});
+	};
 	var updateTeam = function updateTeam(e) {
 		e.preventDefault();
 		$('#updateGroupBtn').attr('disabled', true);
 		var formData = $('#updateTeamForm').serializeObject();
 		formData.members = createTeamMembersArray(formData.admin_email);
-		formData.isClosed === "Yes" ? formData.isClosed = true : formData.isClosed = false;
+		formData.isClosed === "Yes" ? formData.isClosed = false : formData.isClosed = true;
 		formData.openDate = Date();
 		$.ajax({
 			method: 'PUT',
 			type: 'application/json',
 			url: '/teams/' + formData.team_id,
 			data: formData,
-			success: function(){
-				debugger;
+			success: function() {
+				toastr.success('Team updated successfully', 'Updated');
 			},
-			error: function(){
-				debugger;
-			}
+			error: errorHandler
 		});
 
 
 	};
+	var deleteTeam = function deleteTeam(e) {
+		e.preventDefault();
+		if (window.confirm("Are you sure?")) {
+			var teamID = $('#teamId').val();
+			var adminEmail = {admin_email: $('#userEmail').val()};
+			$.ajax({
+				method: 'DELETE',
+				url: '/teams/' + teamID,
+				data: adminEmail,
+				success: function(res) {
+					console.log(res);
+					location.reload();
+				},
+				error: errorHandler
+			});
+		}
+	};
 	var dialog = $('#searchDialogForm').dialog({
 		autoOpen: false,
-		height: 500,
+		height: 300,
 		width: 500,
 		modal: true,
 		buttons: {
-			'Add members': addMembers,
 			'Cancel': function() {
 				dialog.dialog('close');
 			}
@@ -196,7 +267,18 @@ $(function() {
 		inputValue.val('');
 	});
 	$('#updateGroupBtn').click(updateTeam);
+	$('#deleteGroupBtn').click(deleteTeam);
+	$('.approve-user').click(function(event) {
+		var userEmail = $(this).closest('li').find('span').text();
+		approveUserOnTeam(event, true, userEmail);
+	});
+	$('.disapprove-user').click(function(event) {
+		var userEmail = $(this).closest('li').find('span').text();
+		approveUserOnTeam(event, false, userEmail);
+	});
+	$('.removeUserFromTeam').click(removeMemberFromTeam);
 
+	$('#addMember').click(addMemberToTeam);
 
 });
 

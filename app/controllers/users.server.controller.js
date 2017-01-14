@@ -4,7 +4,8 @@ var User = require('mongoose').model('User'),
 	passport = require('passport'),
 	nodemailer = require('nodemailer'),
 	config = require('../../config/config'),
-	ROLES = require('./../models/user.server.model').ROLES;
+	ROLES = require('./../models/user.server.model').ROLES,
+	Q = require('q');
 
 
 //Init the SMTP transport
@@ -620,6 +621,15 @@ exports.userAgree = function(req, res, next) {
 	}
 };
 
+exports.isInTeam = function(req, res, next){
+	var user = req.user;
+	if (user.team.length > 0) {
+		res.status(500).send('already in a team');
+	} else {
+		next();
+	}
+};
+
 exports.searchUserByEmailAutocomplete = function(req, res) {
 	var regex = new RegExp(req.query["term"], 'i');
 	var query = User.find({'email': regex}, {'_id': 1, 'email':1});
@@ -632,9 +642,8 @@ exports.searchUserByEmailAutocomplete = function(req, res) {
 	});
 };
 
-exports.renderAutoComplete = function(req, res){
-	res.render('autocomplete');
-}
+
+
 
 
 
