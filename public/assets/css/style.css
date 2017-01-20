@@ -31,18 +31,22 @@
     transition: all 0.3s;
     width: 0;
 }
+
 .icon-button:hover span {
     width: 5.6rem;
     height: 5.6rem;
     border-radius: 5.6rem;
     margin: -2.8rem;
 }
+
 .twitter span {
     background-color: #4099ff;
 }
+
 .facebook span {
     background-color: #3B5998;
 }
+
 .google-plus span {
     background-color: #db5a3c;
 }
@@ -63,15 +67,19 @@
     width: 5.6rem;
     z-index: 10;
 }
+
 .icon-button .icon-twitter {
     color: #4099ff;
 }
+
 .icon-button .icon-facebook {
     color: #3B5998;
 }
+
 .icon-button .icon-google-plus {
     color: #db5a3c;
 }
+
 .icon-button:hover .icon-twitter,
 .icon-button:hover .icon-facebook,
 .icon-button:hover .icon-google-plus {
@@ -111,4 +119,52 @@
     background-color: RGBA(220, 83, 73, 1.00);
 }
 
+.bootstrap-tagsinput .tag {
+    background-color: black;
+}
 
+.modal-content {
+    overflow: hidden;
+}
+
+#registerFailModal .modal-header{
+    padding: 5px;
+}
+#registerSuccessModal .modal-header{
+    padding: 5px;
+}
+#registerSuccessModal .modal-header {
+    background-color: RGBA(154, 194, 97, 1.00);
+}
+
+#registerFailModal .modal-header {
+    background-color: RGBA(220, 83, 73, 1.00);
+}
+
+#registerFailModal .modal-footer {
+    padding: 5px;
+}
+
+#registerSuccessModal .modal-footer {
+    padding: 5px;
+}
+
+.team-container{
+    border: 1px solid RGBA(230, 230, 230, 1.00);
+    margin-top: 10px;
+    padding: 30px;
+    border-radius: 7px;
+}
+
+.myteam-members{
+    display: inline-block;
+}
+
+.myteam-captain{
+    margin-bottom: 0;
+}
+
+.team-container textarea{
+    display: inline-block;
+    width: 70%;
+}

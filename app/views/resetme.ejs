@@ -1,144 +1,142 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"
+          integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-tagsinput.css">
+    <meta charset="UTF-8">
     <title>
-        <%= title %>
+        <%= eventName %>
     </title>
-
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
-    <link href="/assets/css/jquery.modal.css" type="text/css" rel="stylesheet"/>
-
 </head>
+<nav class="navbar navbar-light bg-faded">
+    <a class="navbar-brand" href="/"><%= eventName %><span style="font-weight: bold"> <%= pageTitle %></span></a>
+    <ul class="nav navbar-nav float-xs-right">
+        <%
+        menu.forEach(function(menuItem){
+        %>
+        <li class="nav-item <% if (menuItem.isActive) { %>active <% } %>"><a class="nav-link" href="<%= menuItem.path %>"><%= menuItem.name %></a></li>
+        <% }); %>
+    </ul>
+</nav>
 <body>
-
-
 <div class="container">
     <% if (msg === "error") { %>
     <h1>Well, something went wrong here...</h1>
 
-    <h2>Please try again or contact <%= suppemail %> for further assitance</h2>
+    <h2>Please try again or contact administrator for further assitance</h2>
     <% } %>
 
     <% if (msg === "nouser") { %>
     <h1>Well, you are doing something wrong here...</h1>
 
-    <h2>Are you sure that this is the right link? Please try again or contact <%= suppemail %> for further
+    <h2>Are you sure that this is the right link? Please try again or contact administrator for further
         assitance</h2>
     <% } %>
 
     <% if (msg === "wrongid") { %>
     <h1>Well, you are doing something wrong here...</h1>
 
-    <h2>Are you sure that this is the right link? Please try again or contact <%= suppemail %> for further
+    <h2>Are you sure that this is the right link? Please try again or contact administrator for further
         assitance</h2>
     <% } %>
     <% if (msg === "ok" && user){ %>
 
     <% if (user.email !== "" && user.resetPass !== ""){ %>
 
-    <h2 class="form-signin-heading text-center">password resetter. </h2>
-    <input type="hidden" name="resetPass" id="reserPass" value="<%= user.resetPass %>"/>
-    <label for="username" class="sr-only">Email</label>
-    <input type="text" name="username" id="username" class="form-control" placeholder="Email" required autofocus>
+    <h2 class="form-signin-heading text-center">Password Reset</h2>
+    <div class="form-group">
+        <input type="hidden" name="resetPass" id="reserPass" value="<%= user.resetPass %>"/>
+        <label for="username" class="sr-only">Email</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="Email" required autofocus>
+    </div>
 
-    <label for="password" class="sr-only">Password</label>
-    <input type="password" name="password" id="password" class="form-control" placeholder="New Password">
-    <input type="password" name="password_ver" id="password_ver" class="form-control" placeholder="Retype New Password">
+    <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="New Password">
+    </div>
 
+    <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password_ver" id="password_ver" class="form-control" placeholder="Retype New Password">
+    </div>
     <button class="btn btn-lg btn-primary btn-block" id="resetPass">Reset password</button>
     <% } else { %>
     <h1>Well, you are doing something wrong here...</h1>
 
-    <h2>Are you sure that this is the right link? Please try again or contact <%= suppemail %> for further
+    <h2>Are you sure that this is the right link? Please try again or contact administrator for further
         assitance</h2>
     <% } %>
     <% } %>
 </div>
+<!--Modals-->
+<!--Modal Success-->
+<div class="modal fade" id="registerSuccessModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-xs-center">Success</h5>
+            </div>
+            <div class="modal-body">
+                <p>You just reset your password, close me to login with your new password.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Model Success-->
 
+<!--Modal Fail-->
+<div class="modal fade" id="registerFailModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-xs-center">Houston, We have a problem</h5>
+            </div>
+            <div class="modal-body">
+                <p id="modalFailContent"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal Fail-->
 
 </div>
-<script src="/assets/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/assets/js/jquery.modal.js"></script>
+<div class="container social-icons mt-3 text-xs-center ">
+    <a href="<%= footerData.twitter%>" class="icon-button twitter"><i
+                class="fa fa-twitter fa-1x"></i><span></span></a>
+    <a href="<%= footerData.facebook%>" class="icon-button facebook"><i class="fa fa-facebook fa-1x"></i><span></span></a>
+    <a href="<%= footerData.google%>" class="icon-button google-plus"><i
+                class="fa fa-google-plus fa-1x"></i><span></span></a>
+</div>
 
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        $('#resetPass').on('click', function () {
-            $('#resetPass').prop('disabled', true)
-            if ($('#username').val() === "") {
-                modal({
-                    type: 'error',
-                    title: 'Houston, We have a problem',
-                    text: "Please insert an email",
-                    animate: true
-                });
-                $('#resetPass').prop('disabled', false)
-            }
-            else if ($('#password').val() === "") {
-                modal({
-                    type: 'error',
-                    title: 'Houston, We have a problem',
-                    text: "Please insert a new password",
-                    animate: true
-                });
-                $('#resetPass').prop('disabled', false)
-            } else if ($('#password').val() !== $('#password_ver').val()) {
-                modal({
-                    type: 'error',
-                    title: 'Houston, We have a problem',
-                    text: "Password do not match",
-                    animate: true
-                });
-                $('#resetPass').prop('disabled', false)
-            } else {
-                $.ajax({
-                    data: {
-                        "password": $('#password').val(),
-                        "email": $('#username').val(),
-                        "resetPass": $('#reserPass').val()
-                    },
-                    type: "PUT",
-                    url: "/resetme",
-                    success: function (data) {
-                        if (data === "ok") {
-                            modal({
-                                type: 'success',
-                                title: 'Win!',
-                                text: "You just reset your password, close me to login with your new password.",
-                                animate: true,
-                                callback: function () {
-                                    window.location.replace("/login");
-                                }
-                            });
-                            $('#resetPass').prop('disabled', false);
-                            $('#lastResetText').html("password was reset for " + $('#username').val() + ". new password is:" + $('#password').val());
-                            $('#lastReset').css('display', 'block');
-                        } else {
-                            var eText = "";
-                            if (data === undefined || data !== "error") {
-                                eText = "Something is wrong here. Are you sure it's your email? Please try again or contact <%=suppemail%>";
-                            } else {
-                                eText = "We have an internal error. Please try again or contact <%=suppemail%>";
-                            }
-                            modal({
-                                type: 'error',
-                                title: 'Houston, We have a problem',
-                                text: eText,
-                                animate: true
-                            });
-                            $('#resetPass').prop('disabled', false)
-                        }
-                    },
-                    error: function (err) {
-                        alert("not goot");
-                        console.log(err)
-                        $('#resetPass').prop('disabled', false)
-                    }
-                })
-            }
-        })
-    })
-</script>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+        integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js"
+        integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"
+        integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
+        crossorigin="anonymous"></script>
+<script
+        src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="../dist/scripts/scripts.min.js"></script>
 </html>

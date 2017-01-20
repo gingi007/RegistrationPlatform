@@ -1,9 +1,3 @@
-Array.prototype.diff = function(a) {
-	return this.filter(function(i) {
-		return a.indexOf(i) < 0;
-	});
-};
-
 function uniq(a) {
 	var seen = {};
 	return a.filter(function(item) {
@@ -68,16 +62,37 @@ var memberChange = {
 	maxSize: 5
 };
 
+Array.prototype.diff = function(a) {
+	return this.filter(function(i) {
+		return a.indexOf(i) < 0;
+	});
+};
 
 exports.createTeamPage = function(req, res, next) {
 	if (req.user && !req.user.isMember) {
 		res.render('createTeam', {
 			user: req.user,
-			suppemail: config.supportEmailAddr,
-			eventname: config.eventname,
-			eventwebsite: config.eventwebsite,
-			eventfacebook: config.eventfacebook,
-			maxusers: config.maxNumOfUsersInTeam
+			menu: [
+				{
+					name: 'Home',
+					path: '/',
+					isActive: false
+				},
+				{
+					name: 'Create Team',
+					path: '/createTeam',
+					isActive: true
+				},
+				{
+					name: 'Logout',
+					path: '/logout',
+					isActive: false
+				}
+			],
+			eventName: config.eventname,
+			pageTitle: 'Create A Team',
+			maxUsersInTeam: config.maxNumOfUsersInTeam,
+			footerData: config.eventMediaLinks
 		});
 	} else {
 		return res.redirect('/team-up');
@@ -93,13 +108,30 @@ exports.createMyTeamPage = function(req, res, next) {
 			else {
 				var index = team.members.indexOf(team.admin_email);
 				team.members.splice(index, 1);
-				return res.render('myTeam', {
+				return res.render('myTeam',  {
 					user: req.user,
 					team: team,
-					suppemail: config.supportEmailAddr,
-					eventname: config.eventname,
-					eventwebsite: config.eventwebsite,
-					eventfacebook: config.eventfacebook
+					menu: [
+						{
+							name: 'Home',
+							path: '/',
+							isActive: false
+						},
+						{
+							name: 'My Team',
+							path: '/updateTeam',
+							isActive: true
+						},
+						{
+							name: 'Logout',
+							path: '/logout',
+							isActive: false
+						}
+					],
+					eventName: config.eventname,
+					pageTitle: 'My Team',
+					maxUsersInTeam: config.maxNumOfUsersInTeam,
+					footerData: config.eventMediaLinks
 				});
 			}
 		});
@@ -139,7 +171,8 @@ exports.createUpdateTeamPage = function(req, res, next) {
 					],
 					eventName: config.eventname,
 					pageTitle: 'Update Your Team',
-					maxUsersInTeam: config.maxNumOfUsersInTeam
+					maxUsersInTeam: config.maxNumOfUsersInTeam,
+					footerData: config.eventMediaLinks
 				});
 			}
 		});

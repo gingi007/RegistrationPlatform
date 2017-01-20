@@ -14,6 +14,7 @@ var defaultMenu = [
 	],
 	defaultTitle = 'Welcome';
 
+
 exports.render = function(req, res) {
 	if (req.user) {
 		if (req.user.isMember) {
@@ -23,7 +24,8 @@ exports.render = function(req, res) {
 						user: req.user,
 						pageTitle: defaultTitle,
 						menu: defaultMenu,
-						eventName: config.eventname
+						eventName: config.eventname,
+						footerData : config.eventMediaLinks
 					});
 				} else {
 					var index = team.members.indexOf(team.admin_email);
@@ -33,7 +35,8 @@ exports.render = function(req, res) {
 						pageTitle: defaultTitle,
 						team: team,
 						menu: defaultMenu,
-						eventName: config.eventname
+						eventName: config.eventname,
+						footerData : config.eventMediaLinks
 					});
 				}
 			});
@@ -42,7 +45,8 @@ exports.render = function(req, res) {
 				user: req.user,
 				pageTitle: defaultTitle,
 				menu: defaultMenu,
-				eventName: config.eventname
+				eventName: config.eventname,
+				footerData : config.eventMediaLinks
 			});
 		}
 	} else {
@@ -51,20 +55,21 @@ exports.render = function(req, res) {
 			pageTitle: defaultTitle,
 			menu: [{name: 'Home', path: '/', isActive: true}],
 			messages: req.flash('error'),
-			eventName: config.eventname
+			eventName: config.eventname,
+			footerData : config.eventMediaLinks
 		});
 	}
 };
 exports.renderMingle = function(req, res) {
 	if (req.user) {
 		Team.find({}, function(err, teams) {
-			shuffle(teams);
 			res.render('mingle', {
 				user: req.user,
 				menu: defaultMenu,
 				pageTitle: 'Mingling',
 				teams: teams,
 				eventName: config.eventname,
+				footerData : config.eventMediaLinks
 			});
 		});
 	} else {

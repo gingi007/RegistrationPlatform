@@ -5,21 +5,26 @@ var emailAddr = process.env.EMAIL_ADDR || '';
 var emailPass = process.env.EMAIL_PASS || '';
 var supportEmailAddr = process.env.SUPP_EMAIL_ADDR || '';
 var eventname = 'MTA Hack';
-var eventwebsite = 'http://www.mtahack.com';
-var eventfacebook = 'https://www.facebook.com/mtahack2017';
+var eventMediaLinks = {
+	website: 'http://www.mtahack.com',
+	facebook: 'https://www.facebook.com/mtahack2017',
+	twitter: 'https://twitter.com/mtahackathon',
+	google: 'https://plus.google.com/u/1/113260219787307001341/'
+};
+var eventfacebook = '';
 var maxNumOfUsersInTeam = 4;
-var adminEmail= 'mta.hackathon@gmail.com';
+var adminEmail = 'mta.hackathon@gmail.com';
 module.exports = {
-    port: port,
-    host: host,
-    db: 'mongodb://localhost/registrationplatform',
-    emailAddr: 'mta.hackathon@gmail.com',
-    emailPass: 'mtahack2017',
-    supportEmailAddr: 'mta.hackathon@gmail.com',
-    eventname: eventname,
-    eventwebsite: eventwebsite,
-    eventfacebook: eventfacebook,
-    maxNumOfUsersInTeam: maxNumOfUsersInTeam,
-    adminEmail: adminEmail
+	port: port,
+	host: host,
+	db: 'mongodb://localhost/registrationplatform',
+	emailAddr: 'mta.hackathon@gmail.com',
+	emailPass: 'mtahack2017',
+	supportEmailAddr: 'mta.hackathon@gmail.com',
+	eventname: eventname,
+	eventwebsite: eventMediaLinks.website,
+	eventMediaLinks: eventMediaLinks,
+	maxNumOfUsersInTeam: maxNumOfUsersInTeam,
+	adminEmail: adminEmail
 };
 

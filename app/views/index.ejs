@@ -44,7 +44,8 @@
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-            <a href="/forgot"><p class="form-text text-muted">Forgot password?</p></a>
+            <a href='#'onclick="initResetPasswordModal()"><p class="form-text text-muted">Forgot password?</p></a>
+
         </div>
         <hr class="colorgraph">
         <div class="row">
@@ -56,7 +57,46 @@
             </div>
         </div>
     </form>
+    <% for (var i = 0; i < messages.length; i++) { %>
+    <div class="alert alert-danger" role="alert">
+        <strong>Oh snap! </strong><%= messages[i] %>
+    </div>
+    <% } %>
 </div>
 
 <% } %>
+
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="display: inline-block" id="resetPassLabel">Reset Your Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="forgotEmailInput">Email address</label>
+                    <input type="email" class="form-control" id="forgotEmailInput" aria-describedby="emailHelp"
+                           placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.
+                    </small>
+                </div>
+                <div class="alert alert-success" id="resetSucessMessage" style="display: none" role="alert">
+                    <strong>Well done!</strong> Check your email, you should get instructions on how to reset your
+                    password.
+                </div>
+                <div class="alert alert-danger" id="resetErrorMessage" role="alert" style="display: none">
+                    <strong>Oh snap! </strong> <span id=resetErrorMessageText></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="forgotPasswordResetBtn">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
 <% include ./partials/footer %>

@@ -15,10 +15,11 @@
 <% if (user.email == adminemail){ %>
 <div class="container">
 
-    <h2 class="form-signin-heading text-center">password resetter. </h2>
-
-    <label for="username" class="sr-only">Email</label>
-    <input type="text" name="username" id="username" class="form-control" placeholder="Email" required autofocus>
+    <h2 class="form-signin-heading text-center">Password Reset </h2>
+    <div class="row float-xs-center">
+        <label for="username" class="sr-only">Email</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="Email" required autofocus>
+    </div>
 
     <label for="password" class="sr-only">Password</label>
     <input type="password" name="password" id="password" class="form-control" placeholder="New Password">
@@ -39,35 +40,35 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $('#resetPass').on('click', function () {
-            $('#resetPass').prop('disabled', true)
-            if ($('#username').val() === "") {
-                alert("please insert email")
-            }
-            else if ($('#password').val() === "") {
-                alert("please insert pass")
-            } else if ($('#password').val() !== $('#password_ver').val()) {
-                alert("password do not match")
-            } else {
-                $.ajax({
-                    data: {"password": $('#password').val()},
-                    type: "PUT",
-                    url: "/users/" + $('#username').val(),
-                    success: function (user) {
-                        alert("password was reset for " + $('#username').val() + ". new password is:" + $('#password').val());
-                        $('#resetPass').prop('disabled', false);
-                        $('#lastResetText').html("password was reset for " + $('#username').val() + ". new password is:" + $('#password').val());
-                        $('#lastReset').css('display', 'block');
-                    },
-                    error: function (err) {
-                        alert("not goot: " + err);
-                        $('#resetPass').prop('disabled', false)
-                    }
-                })
-            }
-        })
-    })
+	$(document).ready(function() {
+		$('#resetPass').on('click', function() {
+			$('#resetPass').prop('disabled', true)
+			if ($('#username').val() === "") {
+				alert("please insert email")
+			}
+			else if ($('#password').val() === "") {
+				alert("please insert pass")
+			} else if ($('#password').val() !== $('#password_ver').val()) {
+				alert("password do not match")
+			} else {
+				$.ajax({
+					data: {"password": $('#password').val()},
+					type: "PUT",
+					url: "/users/" + $('#username').val(),
+					success: function(user) {
+						alert("password was reset for " + $('#username').val() + ". new password is:" + $('#password').val());
+						$('#resetPass').prop('disabled', false);
+						$('#lastResetText').html("password was reset for " + $('#username').val() + ". new password is:" + $('#password').val());
+						$('#lastReset').css('display', 'block');
+					},
+					error: function(err) {
+						alert("not goot: " + err);
+						$('#resetPass').prop('disabled', false)
+					}
+				})
+			}
+		})
+	})
 </script>
 </body>
 </html>

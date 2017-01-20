@@ -135,6 +135,24 @@ TeamSchema.statics.removeUserFromTeam = function(obj) {
 	return deferred.promise;
 };
 
+TeamSchema.statics.removeUserFromGroup = function(user, teamId) {
+	var deferred = Q.defer();
+	this.findOne({_id: teamId}, function(err, team) {
+		if (err) {
+			deferred.reject(err);
+		} else {
+			team.removeFromMembers(user.email);
+			team.save(function(err, team) {
+				if (err) {
+					deferred.reject(err);
+				} else {
+					deferred.resolve(team);
+				}
+			});
+		}
+	});
+	return deferred.promise;
+};
 module.exports = {
 	TEAM_ERROR_TYPES: ERROR_TYPE
 };

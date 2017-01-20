@@ -95,7 +95,8 @@ exports.renderLogin = function(req, res, next) {
 			pageTitle: 'Login',
 			menu: [{name: 'Home', path: '/', isActive: true}],
 			messages: req.flash('error'),
-			eventName: config.eventname
+			eventName: config.eventname,
+			footerData:config.eventMediaLinks
 		});
 	}
 	else {
@@ -106,12 +107,26 @@ exports.renderLogin = function(req, res, next) {
 exports.renderRegister = function(req, res, next) {
 	if (!req.user) {
 		res.render('register', {
-			title: 'Register Form',
+			user: '',
+			pageTitle: 'Registration',
+			menu: [
+				{
+					name: 'Home',
+					path: '/',
+					isActive: false
+				},
+				{
+					name: 'Register',
+					path: '/register',
+					isActive: true
+				}, {
+					name: 'Login',
+					path: '/login',
+					isActive: false
+				}],
 			messages: req.flash('error'),
-			suppemail: config.supportEmailAddr,
-			eventname: config.eventname,
-			eventwebsite: config.eventwebsite,
-			eventfacebook: config.eventfacebook
+			eventName: config.eventname,
+			footerData:config.eventMediaLinks
 		});
 	}
 	else {
@@ -119,21 +134,21 @@ exports.renderRegister = function(req, res, next) {
 	}
 };
 
-exports.renderForgot = function(req, res, next) {
-	if (!req.user) {
-		res.render('forgot', {
-			title: 'Forgot form',
-			messages: req.flash('error'),
-			suppemail: config.supportEmailAddr,
-			eventname: config.eventname,
-			eventwebsite: config.eventwebsite,
-			eventfacebook: config.eventfacebook
-		});
-	}
-	else {
-		return res.redirect('/team-up');
-	}
-};
+// exports.renderForgot = function(req, res, next) {
+// 	if (!req.user) {
+// 		res.render('forgot', {
+// 			title: 'Forgot form',
+// 			messages: req.flash('error'),
+// 			suppemail: config.supportEmailAddr,
+// 			eventname: config.eventname,
+// 			eventwebsite: config.eventwebsite,
+// 			eventfacebook: config.eventfacebook
+// 		});
+// 	}
+// 	else {
+// 		return res.redirect('/team-up');
+// 	}
+// };
 
 exports.renderPrintUsers = function(req, res, next) {
 	//if (!req.user) {
@@ -150,7 +165,8 @@ exports.renderPrintUsers = function(req, res, next) {
 				eventname: config.eventname,
 				eventwebsite: config.eventwebsite,
 				eventfacebook: config.eventfacebook,
-				roles: ROLES
+				roles: ROLES,
+				footerData:config.eventMediaLinks
 			});
 		}
 	});
@@ -188,7 +204,8 @@ exports.renderAdminspace = function(req, res, next) {
 					],
 					usersCount: users.length,
 					approvedUsers: howManyUsersApproved(users),
-					teamCount: teamCount
+					teamCount: teamCount,
+					footerData:config.eventMediaLinks
 				});
 			});
 
@@ -249,48 +266,89 @@ exports.renderResetme = function(req, res, next) {
 			User.findOne({resetPass: req.params.resetId}, function(err, user) {
 					if (err) {
 						console.log("cant access db to render resetme " + err);
-						res.render('resetme', {
-							title: 'reset password',
-							msg: 'error',
-							user: {},
-							suppemail: config.supportEmailAddr,
-							eventname: config.eventname,
-							eventwebsite: config.eventwebsite,
-							eventfacebook: config.eventfacebook
-						});
+						res.render('resetme',
+							{
+								pageTitle: 'Reset Password',
+								msg: 'error',
+								user:{},
+								menu: [
+									{
+										name: 'Home',
+										path: '/',
+										isActive: false
+									},
+									{
+										name: 'Login',
+										path: '/login',
+										isActive: false
+									}],
+								messages: req.flash('error'),
+								eventName: config.eventname,
+								footerData:config.eventMediaLinks
+							});
 					}
 					else if (!user) {
 						res.render('resetme', {
-							title: 'reset password',
+							pageTitle: 'Reset Password',
 							msg: 'nouser',
-							user: {},
-							suppemail: config.supportEmailAddr,
-							eventname: config.eventname,
-							eventwebsite: config.eventwebsite,
-							eventfacebook: config.eventfacebook
+							user:{},
+							menu: [
+								{
+									name: 'Home',
+									path: '/',
+									isActive: false
+								},
+								{
+									name: 'Login',
+									path: '/login',
+									isActive: false
+								}],
+							messages: req.flash('error'),
+							eventName: config.eventname,
+							footerData:config.eventMediaLinks
 						});
 					} else {
 						res.render('resetme', {
-							title: 'reset password',
+							pageTitle: 'Reset Password',
 							msg: 'ok',
 							user: {"email": user.email, "resetPass": req.params.resetId},
-							suppemail: config.supportEmailAddr,
-							eventname: config.eventname,
-							eventwebsite: config.eventwebsite,
-							eventfacebook: config.eventfacebook
+							menu: [
+								{
+									name: 'Home',
+									path: '/',
+									isActive: false
+								},
+								{
+									name: 'Login',
+									path: '/login',
+									isActive: false
+								}],
+							messages: req.flash('error'),
+							eventName: config.eventname,
+							footerData:config.eventMediaLinks
 						});
 					}
 				}
 			);
 		} else {
 			res.render('resetme', {
-				title: 'reset password',
+				pageTitle: 'Reset Password',
 				msg: 'wrongid',
 				user: {},
-				suppemail: config.supportEmailAddr,
-				eventname: config.eventname,
-				eventwebsite: config.eventwebsite,
-				eventfacebook: config.eventfacebook
+				menu: [
+					{
+						name: 'Home',
+						path: '/',
+						isActive: false
+					},
+					{
+						name: 'Login',
+						path: '/login',
+						isActive: false
+					}],
+				messages: req.flash('error'),
+				eventName: config.eventname,
+				footerData:config.eventMediaLinks
 			});
 		}
 	}
@@ -330,8 +388,7 @@ exports.passer = function(req, res, next) {
 exports.forgot = function(req, res, next) {
 	console.log(req.body.email);
 	var link = Math.random().toString(36).substring(7);
-
-	User.findOneAndUpdate({email: {$regex: new RegExp(req.body.email, "i")}}, {resetPass: link}, function(err, user) {
+	User.findOneAndUpdate({email: req.body.email}, {resetPass: link}, function(err, user) {
 			if (err) {
 				console.log(err);
 				res.send("ERR");
@@ -621,7 +678,7 @@ exports.userAgree = function(req, res, next) {
 	}
 };
 
-exports.isInTeam = function(req, res, next){
+exports.isInTeam = function(req, res, next) {
 	var user = req.user;
 	if (user.team.length > 0) {
 		res.status(500).send('already in a team');
@@ -632,7 +689,7 @@ exports.isInTeam = function(req, res, next){
 
 exports.searchUserByEmailAutocomplete = function(req, res) {
 	var regex = new RegExp(req.query["term"], 'i');
-	var query = User.find({'email': regex}, {'_id': 1, 'email':1});
+	var query = User.find({'email': regex}, {'_id': 1, 'email': 1});
 	query.exec(function(err, users) {
 		if (err) {
 			res.status(401).send(JSON.stringify(err));
@@ -640,6 +697,29 @@ exports.searchUserByEmailAutocomplete = function(req, res) {
 			res.json(users);
 		}
 	});
+};
+
+exports.leaveTeam = function(req, res) {
+	var teamId = req.user.team;
+	if (!teamId) {
+		res.status(400).send("User not in a group");
+	} else {
+		User.findOneAndUpdate({_id: req.user._id}, {isMember: false, team: ''}, function(err, user) {
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				Team.removeUserFromGroup(user, teamId)
+					.then(function(team) {
+						console.log(req.user.email + " Was deleted from group " + team.team_name);
+						res.send(req.user.email + " Was deleted from group " + team.team_name);
+					})
+					.catch(function(e) {
+						res.status(400).send(e);
+					})
+					.done();
+			}
+		});
+	}
 };
 
 
